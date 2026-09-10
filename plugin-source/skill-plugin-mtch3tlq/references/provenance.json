@@ -1,0 +1,19 @@
+{
+  "candidateId": "1e70d837-3407-4b4d-ad8a-4bc328be225e",
+  "projectId": "a695c24a-e882-4d8e-9676-08d7a815f805",
+  "runId": "438985fd-0582-4674-af8f-d8a9cf240c89",
+  "conversationId": "efd2a16f-413c-49f6-a2e2-429f3caf11e0",
+  "provenance": {
+    "summary": "Detected from relationship-conflict-competitive-analysis.md after a successful run.",
+    "detectedAt": 1787850731502
+  },
+  "sourceRefs": [
+    {
+      "kind": "file",
+      "value": "relationship-conflict-competitive-analysis.md",
+      "label": "relationship-conflict-competitive-analysis.md",
+      "size": 50049,
+      "copied": true
+    }
+  ]
+}

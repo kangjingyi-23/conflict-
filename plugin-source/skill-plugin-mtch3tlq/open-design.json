@@ -1,0 +1,22 @@
+{
+  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "specVersion": "1.0.0",
+  "name": "skill-plugin-mtch3tlq",
+  "title": "恋爱吵架记录与复盘小程序：竞品分析与心理学理论调研",
+  "version": "0.1.0",
+  "description": "访问日期：2026-08-16；国内与自我探索竞品补充访问日期：2026-08-24 当前阶段：研究、产品判断、文档输出。未修改业务代码，未制作页面或视觉稿。",
+  "od": {
+    "kind": "skill",
+    "taskKind": "new-generation",
+    "context": {
+      "skills": [
+        {
+          "path": "./SKILL.md"
+        }
+      ]
+    },
+    "capabilities": [
+      "prompt:inject"
+    ]
+  }
+}

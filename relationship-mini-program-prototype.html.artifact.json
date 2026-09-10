@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "relationship-mini-program-prototype.html",
+  "entry": "relationship-mini-program-prototype.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-25T12:56:58.664Z",
+  "updatedAt": "2026-08-25T12:56:58.664Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
