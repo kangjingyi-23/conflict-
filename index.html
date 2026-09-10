@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>关系成长小程序原型</title>
+  <title>慢慢说 · 关系小记原型</title>
   <style>
     :root {
-      --bg: oklch(97.05% 0.0164 353.63);
-      --surface: oklch(98.32% 0.0100 58.22);
-      --fg: oklch(29.16% 0.0197 311.86);
-      --muted: oklch(53.85% 0.0181 319.45);
-      --border: oklch(90.80% 0.0144 343.23);
-      --accent: oklch(69.05% 0.1641 358.55);
+      --bg: oklch(96.8% 0.024 70);
+      --surface: oklch(98.7% 0.012 78);
+      --fg: oklch(30% 0.035 48);
+      --muted: oklch(50% 0.038 52);
+      --border: oklch(89.5% 0.033 65);
+      --accent: oklch(55% 0.12 43);
       --accent-on: oklch(100% 0 0);
       --accent-soft: color-mix(in oklch, var(--accent) 12%, var(--surface));
       --accent-fog: color-mix(in oklch, var(--accent) 7%, var(--bg));
@@ -29,7 +29,6 @@
       --shadow-raised: 0 18px 45px color-mix(in oklch, var(--fg), transparent 88%);
       --tap: 44px;
     }
-
     * { box-sizing: border-box; }
     html { background: var(--bg); color: var(--fg); font-family: var(--font-body); }
     body {
@@ -43,16 +42,12 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-    button, input, textarea, select { font: inherit; }
+    button, input, textarea { font: inherit; }
     button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .48; }
     h1, h2, h3, p { margin: 0; }
-    h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; line-height: 1.22; }
-    .page {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 32px 16px;
-    }
+    h1, h2, h3 { font-family: var(--font-display); line-height: 1.22; letter-spacing: 0; }
+    .page { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; }
     .prototype-shell {
       width: min(100%, 1180px);
       display: grid;
@@ -60,34 +55,18 @@
       gap: 24px;
       align-items: start;
     }
-    .brief-panel,
-    .inspector {
+    .brief-panel, .inspector {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 20px;
       box-shadow: var(--shadow-raised);
     }
-    .eyebrow {
-      font: 600 12px/1.2 var(--font-mono);
-      letter-spacing: 0.04em;
-      color: var(--accent);
-    }
-    .brief-panel h1 {
-      margin-top: 12px;
-      font-size: 28px;
-      max-width: 11em;
-    }
-    .brief-panel p {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    .flow-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 20px;
-    }
+    .eyebrow { font: 650 12px/1.2 var(--font-mono); letter-spacing: .06em; color: var(--accent); }
+    .brief-panel h1 { margin-top: 12px; font-size: 28px; max-width: 11em; }
+    .brief-panel p, .inspector p { margin-top: 12px; color: var(--muted); font-size: 15px; }
+    .flow-list, .section-stack, .entry-grid, .field-stack, .state-strip { display: grid; gap: 12px; }
+    .flow-list { margin-top: 20px; gap: 10px; }
     .flow-btn {
       width: 100%;
       min-height: var(--tap);
@@ -99,30 +78,10 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 12px;
-      transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
       text-align: left;
+      transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
     }
-    .flow-btn:hover,
-    .flow-btn.active {
-      border-color: var(--accent);
-      background: var(--accent-fog);
-    }
-    .flow-btn:focus-visible,
-    .app-back:focus-visible,
-    .primary:focus-visible,
-    .secondary:focus-visible,
-    .ghost:focus-visible,
-    .danger:focus-visible,
-    .secondary-link:focus-visible,
-    .task-key:focus-visible,
-    .chip:focus-visible,
-    .likert button:focus-visible,
-    .report-nav button:focus-visible,
-    summary:focus-visible {
-      outline: 0;
-      box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 74%);
-    }
-    .flow-btn:active { transform: translateY(1px); }
+    .flow-btn:hover, .flow-btn.active { border-color: var(--accent); background: var(--accent-fog); }
     .flow-btn span:first-child { font-weight: 650; }
     .flow-btn span:last-child { color: var(--muted); font: 500 12px/1 var(--font-mono); }
     .phone {
@@ -152,7 +111,6 @@
       align-items: center;
       padding: 0 18px;
       font: 650 12px/1 var(--font-mono);
-      color: var(--fg);
       flex: 0 0 auto;
     }
     .screen {
@@ -163,6 +121,7 @@
       padding: 14px 16px 104px;
     }
     .screen.active { display: block; }
+    .phone-screen.has-back .screen.active { padding-top: 54px; }
     .app-back {
       position: absolute;
       top: 40px;
@@ -178,34 +137,11 @@
       font-weight: 650;
       box-shadow: 0 8px 22px color-mix(in oklch, var(--fg), transparent 92%);
     }
-    .app-back[hidden],
-    .task-dock[hidden] {
-      display: none;
-    }
-    .phone-screen.has-back .screen.active {
-      padding-top: 54px;
-    }
-    .safe-screen {
-      background: color-mix(in oklch, var(--surface), var(--border) 30%);
-    }
-    .mini-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-    .mini-title {
-      font-size: 24px;
-      font-weight: 750;
-      letter-spacing: 0;
-    }
-    .mini-copy {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 6px;
-    }
-    .avatar {
+    .app-back[hidden], .task-dock[hidden], #cycleFields[hidden] { display: none; }
+    .mini-header { display: flex; align-items: start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .mini-title { font-size: 24px; font-weight: 760; }
+    .mini-copy { color: var(--muted); font-size: 14px; margin-top: 6px; }
+    .avatar, .avatar-btn {
       width: 42px;
       height: 42px;
       border-radius: 50%;
@@ -215,354 +151,120 @@
       place-items: center;
       font: 700 13px/1 var(--font-mono);
       color: var(--accent);
+      flex: 0 0 auto;
     }
-    .card {
+    .avatar-btn:hover { border-color: var(--accent); background: var(--accent-fog); }
+    .card, .entry-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       padding: 16px;
     }
-    .soft-card {
-      background: var(--accent-fog);
-      border-color: color-mix(in oklch, var(--accent), var(--border) 70%);
-    }
-    .danger-card {
-      background: var(--danger-soft);
-      border-color: color-mix(in oklch, var(--danger), var(--border) 62%);
-    }
-    .section-stack { display: grid; gap: 14px; }
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .chip {
-      min-height: var(--tap);
-      display: inline-flex;
-      align-items: center;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--muted);
-      padding: 6px 10px;
-      font-size: 13px;
-    }
-    .chip.selected,
-    .chip.active {
-      border-color: var(--accent);
-      color: var(--fg);
-      background: var(--accent-soft);
-    }
-    .primary,
-    .secondary,
-    .ghost,
-    .danger {
+    .soft-card, .entry-card.self { background: var(--accent-fog); }
+    .entry-card.review { background: color-mix(in oklch, var(--surface), var(--warn) 8%); }
+    .danger-card { border-color: color-mix(in oklch, var(--danger), transparent 55%); background: var(--danger-soft); }
+    .entry-card { min-height: 174px; display: grid; align-content: space-between; gap: 16px; }
+    .entry-card h2, .card h2 { font-size: 20px; font-weight: 760; }
+    .entry-card p, .card p, .list-item span { color: var(--muted); font-size: 14px; }
+    .primary, .secondary, .ghost, .danger, .secondary-link {
       min-height: var(--tap);
       border-radius: var(--radius-pill);
-      border: 1px solid transparent;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
       padding: 10px 16px;
-      font-weight: 700;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 760;
       transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
-      white-space: nowrap;
     }
     .primary {
       background: var(--accent);
       color: var(--accent-on);
-      box-shadow: 0 8px 20px color-mix(in oklch, var(--accent), transparent 70%);
+      border-color: transparent;
+      box-shadow: 0 10px 24px color-mix(in oklch, var(--accent), transparent 78%);
     }
-    .primary:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .secondary {
-      background: var(--accent-soft);
-      color: var(--fg);
-      border-color: color-mix(in oklch, var(--accent), var(--border) 78%);
-    }
-    .ghost {
-      background: transparent;
-      color: var(--muted);
-      border-color: var(--border);
-    }
-    .danger {
-      background: var(--surface);
-      color: var(--danger);
-      border-color: color-mix(in oklch, var(--danger), var(--border) 70%);
-    }
-    .primary:active,
-    .secondary:active,
-    .ghost:active,
-    .danger:active { transform: translateY(1px); }
-    .btn-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    .secondary, .secondary-link { background: var(--surface); color: var(--fg); }
+    .ghost { background: transparent; color: var(--fg); }
+    .danger { background: var(--danger); color: var(--accent-on); border-color: transparent; }
+    .primary:hover { background: color-mix(in oklch, var(--accent), var(--fg) 8%); }
+    .secondary:hover, .ghost:hover, .secondary-link:hover { border-color: var(--accent); background: var(--accent-fog); }
+    .flow-btn:active, .primary:active, .secondary:active, .ghost:active, .danger:active, .task-key:active, .avatar-btn:active { transform: translateY(1px); }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
     .btn-row.single { grid-template-columns: 1fr; }
-    .entry-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .entry-card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: var(--surface);
-      min-height: 144px;
-      display: grid;
-      align-content: space-between;
-      gap: 16px;
-    }
-    .entry-card.self {
-      background: linear-gradient(135deg, var(--surface), var(--accent-fog));
-    }
-    .entry-card.review {
-      background: linear-gradient(135deg, var(--surface), color-mix(in oklch, var(--success) 8%, var(--surface)));
-    }
-    .entry-card h2 { font-size: 20px; }
-    .entry-card p { color: var(--muted); font-size: 14px; margin-top: 6px; }
-    .loop-card {
-      background: var(--surface);
+    .notice, .list-item, .state-row, .action-row {
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 16px;
-      display: grid;
-      gap: 12px;
-    }
-    .loop-steps {
-      display: grid;
-      gap: 8px;
-    }
-    .loop-step {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: start;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .loop-step b {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--accent-soft);
-      color: var(--fg);
-      display: grid;
-      place-items: center;
-      font: 700 12px/1 var(--font-mono);
-    }
-    .secondary-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 16px;
-    }
-    .secondary-link {
-      min-height: var(--tap);
-      border: 1px solid var(--border);
-      background: color-mix(in oklch, var(--surface), transparent 8%);
-      color: var(--muted);
-      border-radius: var(--radius-pill);
-      padding: 6px 10px;
-    }
-    .state-strip {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .state-row {
-      min-height: 42px;
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      gap: 10px;
-      align-items: center;
-      border-top: 1px solid var(--border);
-      padding-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .state-row:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-    .state-row b {
-      color: var(--fg);
-      font-size: 13px;
-    }
-    .field-error {
-      display: none;
-      color: var(--danger);
-      font-size: 12px;
-      margin-top: 6px;
-    }
-    .field-error.show { display: block; }
-    .list {
-      display: grid;
-      gap: 10px;
-    }
-    .list-item {
-      min-height: 54px;
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
-      display: grid;
-      gap: 2px;
-    }
-    .list-item:first-child { border-top: 0; padding-top: 0; }
-    .list-item strong { font-size: 14px; }
-    .meta { color: var(--muted); font: 500 12px/1.4 var(--font-mono); }
-    .notice {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      background: color-mix(in oklch, var(--surface), transparent 6%);
       padding: 12px;
       color: var(--muted);
-      background: color-mix(in oklch, var(--surface), transparent 18%);
       font-size: 13px;
     }
-    .notice strong { color: var(--fg); }
-    .field {
-      display: grid;
-      gap: 6px;
-      margin-top: 12px;
-    }
-    .field label {
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .input,
-    .textarea {
+    .notice strong, .list-item strong, .state-row b, .action-row strong { color: var(--fg); }
+    .field { display: grid; gap: 7px; margin-top: 12px; }
+    .field:first-child { margin-top: 0; }
+    .field label { font-size: 13px; font-weight: 720; color: var(--fg); }
+    .input, .textarea {
       width: 100%;
       border: 1px solid var(--border);
+      border-radius: var(--radius-md);
       background: var(--surface);
       color: var(--fg);
-      border-radius: var(--radius-sm);
-      min-height: var(--tap);
       padding: 11px 12px;
-      outline: 0;
+      font-size: 14px;
     }
-    .textarea {
-      min-height: 92px;
-      resize: vertical;
-      line-height: 1.55;
-    }
-    .input:focus,
-    .textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 78%);
-    }
-    .input[aria-invalid="true"],
-    .textarea[aria-invalid="true"] {
-      border-color: var(--danger);
-    }
+    .textarea { min-height: 92px; resize: vertical; }
     .progress {
       height: 8px;
       border-radius: var(--radius-pill);
-      background: color-mix(in oklch, var(--border), var(--surface) 50%);
+      background: color-mix(in oklch, var(--border), transparent 40%);
       overflow: hidden;
-      margin: 12px 0 18px;
-    }
-    .progress span {
-      display: block;
-      height: 100%;
-      width: 40%;
-      border-radius: inherit;
-      background: var(--accent);
-      transition: width 200ms ease;
-    }
-    .likert {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-top: 18px;
-    }
-    .likert button {
-      min-height: 48px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--fg);
-      font: 700 14px/1 var(--font-mono);
-    }
-    .likert button.active {
-      background: var(--accent);
-      color: var(--accent-on);
-      border-color: var(--accent);
-    }
-    .score-row {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .score {
-      display: grid;
-      grid-template-columns: 88px 1fr 42px;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .bar {
-      height: 10px;
-      border-radius: var(--radius-pill);
-      background: color-mix(in oklch, var(--border), var(--surface) 45%);
-      overflow: hidden;
-    }
-    .bar span {
-      display: block;
-      height: 100%;
-      width: var(--value);
-      border-radius: inherit;
-      background: color-mix(in oklch, var(--accent), var(--success) 18%);
-    }
-    .stepper {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
       margin-bottom: 12px;
     }
+    .progress span { display: block; height: 100%; width: 0%; background: var(--accent); transition: width 200ms ease; }
+    .choice-grid, .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .choice, .chip {
+      min-height: 38px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      color: var(--fg);
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .choice.active, .chip.selected, .chip.active { border-color: var(--accent); background: var(--accent-soft); }
+    .meta { color: var(--muted); font: 650 12px/1.2 var(--font-mono); }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .list { display: grid; gap: 8px; }
+    .field-error, .inline-error { display: none; color: var(--danger); font-size: 12px; margin-top: 8px; }
+    .field-error.show, .inline-error.show { display: block; }
+    .stepper { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; }
     .step {
       flex: 0 0 auto;
       border: 1px solid var(--border);
       border-radius: var(--radius-pill);
-      padding: 7px 10px;
-      font-size: 12px;
+      padding: 8px 10px;
       color: var(--muted);
       background: var(--surface);
+      font-size: 12px;
+      font-weight: 700;
     }
-    .step.current { color: var(--fg); border-color: var(--accent); background: var(--accent-soft); }
-    .report-nav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin: 14px 0;
-      padding-bottom: 2px;
-    }
+    .step.current { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+    .risk-grid { display: grid; gap: 8px; margin-top: 10px; }
+    .risk-grid label, .checkline { display: flex; gap: 10px; align-items: flex-start; min-height: 38px; color: var(--fg); font-size: 14px; }
+    .report-nav { display: flex; gap: 8px; overflow-x: auto; margin: 14px 0; padding-bottom: 2px; }
     .report-nav button {
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--muted);
       min-height: var(--tap);
-      padding: 7px 10px;
       border-radius: var(--radius-pill);
-      white-space: nowrap;
+      padding: 9px 12px;
+      flex: 0 0 auto;
       font-size: 12px;
+      font-weight: 720;
     }
     .report-nav button.active { color: var(--fg); border-color: var(--accent); background: var(--accent-soft); }
+    .report-panel { display: none; }
+    .report-panel.active { display: grid; gap: 10px; }
     .task-dock {
       position: absolute;
       left: 16px;
@@ -570,12 +272,12 @@
       bottom: 14px;
       z-index: 22;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 56px 1fr;
       gap: 10px;
       padding: 8px;
       border: 1px solid var(--border);
       border-radius: 24px;
-      background: color-mix(in oklch, var(--surface), transparent 4%);
+      background: var(--surface);
       box-shadow: 0 14px 32px color-mix(in oklch, var(--fg), transparent 90%);
     }
     .task-key {
@@ -588,90 +290,86 @@
       place-items: center;
       gap: 3px;
       padding: 8px 10px;
-      transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
     }
-    .task-key span {
-      color: var(--fg);
-      font-size: 14px;
-      font-weight: 750;
-    }
-    .task-key small {
-      font: 600 11px/1.1 var(--font-mono);
-      color: var(--muted);
-    }
-    .task-key:hover,
-    .task-key.active {
+    .task-key span { color: var(--fg); font-size: 14px; font-weight: 760; }
+    .task-key small { font: 600 11px/1.1 var(--font-mono); color: var(--muted); }
+    .task-key:hover, .task-key.active { background: var(--accent-soft); border-color: color-mix(in oklch, var(--accent), transparent 55%); }
+    .task-key.active span { color: var(--accent); }
+    .task-key.mine-key {
+      width: 56px;
+      height: 56px;
+      min-height: 56px;
+      border-radius: 50%;
       background: var(--accent-soft);
-      border-color: color-mix(in oklch, var(--accent), transparent 55%);
-    }
-    .task-key:active {
-      transform: translateY(1px);
-    }
-    .task-key.active span {
+      border-color: color-mix(in oklch, var(--accent), transparent 50%);
+      box-shadow: 0 8px 18px color-mix(in oklch, var(--accent), transparent 84%);
+      font-size: 15px;
       color: var(--accent);
     }
-    .accordion {
-      display: grid;
-      gap: 10px;
-    }
-    details {
-      border: 1px solid var(--border);
+    .puppy-avatar { display: inline-grid; place-items: center; flex-shrink: 0; }
+    .puppy-head { display: block; position: relative; width: 30px; height: 27px; border-radius: 45% 45% 48% 48%; background: var(--surface); border: 1px solid var(--border); isolation: isolate; }
+    .puppy-head::before, .puppy-head::after { content: ''; position: absolute; top: -2px; width: 11px; height: 22px; background: var(--accent); border-radius: 65% 45% 65% 60%; z-index: -1; }
+    .puppy-head::before { left: -7px; transform: rotate(18deg); }
+    .puppy-head::after { right: -7px; transform: rotate(-18deg); }
+    .puppy-eyes { position: absolute; left: 7px; top: 9px; width: 3px; height: 4px; border-radius: 50%; background: var(--fg); box-shadow: 10px 0 0 var(--fg); }
+    .puppy-nose { position: absolute; left: 11px; top: 16px; width: 6px; height: 4px; background: var(--fg); border-radius: 45% 45% 65% 65%; }
+    .task-key.mine-key { height: 64px; min-height: 64px; border-radius: 24px; padding: 7px 6px 5px; gap: 2px; }
+    .task-key.mine-key .mine-label { font-size: 12px; line-height: 1; }
+    .profile-picker fieldset { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
+    .profile-picker legend { font-weight: 650; margin-bottom: 10px; }
+    .profile-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .profile-choice { min-height: 48px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--fg); }
+    .profile-choice[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+    .profile-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .animal-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .animal-options .profile-choice { min-width: 0; padding: 14px 2px 8px; display: grid; justify-items: center; gap: 10px; font-size: 12px; }
+    .puppy-avatar[data-animal="cat"] .puppy-head::before, .puppy-avatar[data-animal="cat"] .puppy-head::after { top: -7px; width: 12px; height: 14px; border-radius: 2px 80% 0 0; }
+    .puppy-avatar[data-animal="cat"] .puppy-head::before { left: 0; transform: rotate(-20deg); }
+    .puppy-avatar[data-animal="cat"] .puppy-head::after { right: 0; transform: rotate(20deg); }
+    .puppy-avatar[data-animal="rabbit"] .puppy-head::before, .puppy-avatar[data-animal="rabbit"] .puppy-head::after { top: -15px; width: 8px; height: 22px; border-radius: 70%; }
+    .puppy-avatar[data-animal="rabbit"] .puppy-head::before { left: 4px; transform: rotate(-8deg); }
+    .puppy-avatar[data-animal="rabbit"] .puppy-head::after { right: 4px; transform: rotate(8deg); }
+    .puppy-avatar[data-animal="bear"] .puppy-head::before, .puppy-avatar[data-animal="bear"] .puppy-head::after { top: -6px; width: 13px; height: 13px; border-radius: 50%; }
+    .partner-details summary { cursor: pointer; min-height: 48px; padding: 12px 0; font-weight: 650; }
+    .partner-details .field { margin-top: 12px; }
+    .toast {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 88px;
+      z-index: 30;
+      display: none;
       border-radius: var(--radius-md);
-      background: var(--surface);
-      padding: 12px;
-    }
-    details summary {
-      cursor: pointer;
-      font-weight: 700;
-      list-style: none;
-    }
-    details p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .map {
-      display: grid;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .map-item {
-      border-left: 3px solid var(--border);
-      padding-left: 10px;
+      background: color-mix(in oklch, var(--fg), var(--surface) 12%);
+      color: var(--surface);
+      padding: 12px 14px;
       font-size: 13px;
-      color: var(--muted);
+      text-align: center;
     }
+    .toast.show { display: block; }
     .delete-modal {
       position: absolute;
       inset: 0;
       display: none;
-      place-items: end center;
-      background: color-mix(in oklch, var(--fg), transparent 55%);
-      padding: 16px;
-      z-index: 30;
+      place-items: center;
+      background: color-mix(in oklch, var(--fg), transparent 68%);
+      padding: 24px;
+      z-index: 40;
     }
     .delete-modal.open { display: grid; }
-    .modal-card {
-      width: 100%;
-      border-radius: 18px;
-      background: var(--surface);
-      padding: 18px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-raised);
-    }
-    .inspector h2 { font-size: 20px; }
-    .inspector p { color: var(--muted); font-size: 14px; margin-top: 10px; }
-    .checklist {
-      margin-top: 18px;
-      display: grid;
-      gap: 12px;
-    }
-    .check {
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
-    }
+    .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-raised); }
+    .loader { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); animation: spin 760ms linear infinite; margin: 10px auto 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .safe-screen { background: color-mix(in oklch, var(--surface), var(--border) 30%); }
+    .checklist { display: grid; gap: 10px; margin-top: 18px; }
+    .check { padding-top: 12px; border-top: 1px solid var(--border); }
     .check strong { font-size: 13px; }
     .check p { margin-top: 4px; font-size: 13px; }
+    .input:focus-visible, .textarea:focus-visible, .flow-btn:focus-visible, .app-back:focus-visible, .primary:focus-visible, .secondary:focus-visible, .ghost:focus-visible, .danger:focus-visible, .avatar-btn:focus-visible, .task-key:focus-visible, .choice:focus-visible, .secondary-link:focus-visible, .report-nav button:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 74%);
+    }
     @media (max-width: 1040px) {
       .prototype-shell { grid-template-columns: 1fr; }
       .phone { position: static; margin-inline: auto; }
@@ -680,24 +378,14 @@
       .page { padding: 0; place-items: stretch; }
       .brief-panel, .inspector { display: none; }
       .prototype-shell { display: block; }
-      .phone {
-        width: 100vw;
-        min-height: 100vh;
-        aspect-ratio: auto;
-        border-radius: 0;
-        padding: 0;
-        background: var(--bg);
-        box-shadow: none;
-      }
+      .phone { width: 100vw; min-height: 100vh; aspect-ratio: auto; border-radius: 0; padding: 0; background: var(--bg); box-shadow: none; }
       .phone-screen { border-radius: 0; border: 0; min-height: 100vh; }
       .screen { padding-inline: 16px; }
       .app-back { top: 38px; left: 12px; }
       .task-dock { left: 12px; right: 12px; bottom: 12px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
@@ -710,398 +398,194 @@
   <main class="page" data-od-id="prototype-page">
     <div class="prototype-shell" data-od-id="prototype-shell">
       <aside class="brief-panel" data-od-id="design-brief-panel">
-        <p class="eyebrow">MVP 原型</p>
-        <h1>把吵架变成更懂彼此的机会</h1>
-        <p>一级信息架构收敛为两个核心任务：探索自己与冲突复盘。探索沉淀个人关系画像，真实冲突再把行为与情境回写进画像。</p>
+        <p class="eyebrow">V2 可用性测试</p>
+        <h1>慢慢说，慢慢懂自己</h1>
+        <p>首页只保留探索自己与冲突复盘。中间的“我”进入我的，承载画像、历史、授权、导出、删除与隐私。</p>
         <div class="flow-list" data-od-id="screen-switcher">
-          <button class="flow-btn" data-go="welcome"><span>欢迎与边界</span><span>P0</span></button>
+          <button class="flow-btn" data-go="welcome"><span>欢迎与知情</span><span>首次</span></button>
           <button class="flow-btn active" data-go="home"><span>两项入口</span><span>一级</span></button>
-          <button class="flow-btn" data-go="self-quiz"><span>探索路径</span><span>画像输入</span></button>
-          <button class="flow-btn" data-go="self-result"><span>关系画像</span><span>二级</span></button>
-          <button class="flow-btn" data-go="create-review"><span>冲突复盘</span><span>真实情境</span></button>
-          <button class="flow-btn" data-go="report"><span>复盘回写</span><span>闭环</span></button>
-          <button class="flow-btn" data-go="safety"><span>安全分流</span><span>例外</span></button>
-          <button class="flow-btn" data-go="settings"><span>个人与隐私</span><span>二级</span></button>
+          <button class="flow-btn" data-go="self-quiz"><span>探索自己</span><span>输入</span></button>
+          <button class="flow-btn" data-go="self-result"><span>当前线索</span><span>结果</span></button>
+          <button class="flow-btn" data-go="create-review"><span>分步复盘</span><span>MVP</span></button>
+          <button class="flow-btn" data-go="report"><span>复盘报告</span><span>状态</span></button>
+          <button class="flow-btn" data-go="safety"><span>安全分流</span><span>高风险</span></button>
+          <button class="flow-btn" data-go="mine"><span>我的</span><span>二级</span></button>
         </div>
       </aside>
 
-      <section class="phone" data-od-id="mini-program-frame" aria-label="微信小程序原型">
+      <section class="phone" data-od-id="mini-program-frame" aria-label="微信小程序 V2 原型">
         <div class="phone-screen">
-          <div class="statusbar" data-od-id="statusbar">
-            <span>20:30</span>
-            <span>WeChat</span>
-          </div>
+          <div class="statusbar" data-od-id="statusbar"><span>20:30</span><span>WeChat</span></div>
           <button class="app-back" id="appBack" type="button" data-od-id="app-back-button" aria-label="返回上一页" hidden>‹ 返回</button>
 
           <section class="screen" id="welcome" data-od-id="screen-welcome">
             <div class="mini-header">
               <div>
-                <p class="eyebrow">关系成长</p>
-                <h1 class="mini-title">先确认边界，再开始复盘</h1>
-                <p class="mini-copy">我们不会替你判断谁赢谁输，也不会诊断你或伴侣。</p>
+                <p class="eyebrow">你好呀，这里是慢慢说</p>
+                <h1 class="mini-title">先选个小伙伴吧</h1>
+                <p class="mini-copy">有些感受，一时说不清也没关系。在这里，可以先听听自己，再慢慢聊聊发生了什么。</p>
               </div>
-              <div class="avatar">AI</div>
+              <div class="avatar" aria-hidden="true">慢</div>
             </div>
             <div class="section-stack">
-              <article class="card soft-card" data-od-id="principle-card-no-winner">
-                <h2>不判输赢</h2>
-                <p class="mini-copy">只整理事实、感受、需要和下一步，而不是生成胜负结论。</p>
-              </article>
-              <article class="card" data-od-id="principle-card-no-diagnosis">
-                <h2>不诊断人格</h2>
-                <p class="mini-copy">结果表达当前倾向，不把任何人贴成固定标签。</p>
-              </article>
-              <article class="card danger-card" data-od-id="principle-card-safety">
-                <h2>高风险先保护安全</h2>
-                <p class="mini-copy">出现暴力、威胁、强迫或紧急危险时，停止普通复盘。</p>
-              </article>
-              <label class="notice" data-od-id="age-consent-control">
-                <input type="checkbox" id="ageCheck" />
-                <strong>我已满 18 岁</strong>，并同意隐私与 AI 使用说明。
-              </label>
-              <div class="btn-row single">
-                <button class="primary" id="startBtn" disabled data-go="home">我已了解，开始使用</button>
-              </div>
+              <article class="card" data-od-id="welcome-profile"><div class="profile-picker"></div><p class="mini-copy">性别不是性格说明书哦，不想选也没关系。小动物挑喜欢的就好，之后随时可以换。</p></article>
+              <article class="card soft-card"><h2>慢慢说，陪你理一理</h2><p>你在意什么？哪句话让你难过了？从这些小地方开始，慢慢理清发生的事、心里的感受，还有想说却没说出口的话。</p></article>
+              <article class="card"><h2>不贴标签，也不猜心</h2><p>一次争执不能定义你。慢慢说不会给你下诊断、算谁错得多，也不能替对方说出心里的答案。</p></article>
+              <article class="card danger-card"><h2>你的安全，要放在前面</h2><p>如果涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险，请先停下复盘。慢慢说不能替代紧急或专业支持。</p></article>
+              <label class="notice checkline"><input type="checkbox" id="ageCheck" /><span><strong>我已满 18 岁</strong>，并同意隐私与 AI 使用说明。</span></label>
+              <div class="btn-row single"><button class="primary" id="startBtn" type="button" disabled>了解了，我们开始吧</button></div>
             </div>
           </section>
 
           <section class="screen active" id="home" data-od-id="screen-home">
             <div class="mini-header">
               <div>
-                <p class="eyebrow">两个核心任务</p>
-                <h1 class="mini-title">先认识自己，或从一次冲突开始</h1>
-                <p class="mini-copy">探索帮助你理解关系画像；真实冲突会提供新的情境信息，反过来更新画像。</p>
+                <p class="eyebrow">慢慢说</p>
+                <h1 class="mini-title">今天，想从哪里说起？</h1>
+                <p class="mini-copy">想多懂自己一点，还是有件事想理一理？选一个就好，不用着急。</p>
               </div>
-              <div class="avatar">静</div>
             </div>
             <div class="entry-grid">
               <article class="entry-card self" data-od-id="entry-self">
-                <div>
-                  <h2>探索自己</h2>
-                  <p>逐步看见你的需求、边界、沟通方式、情绪触发点和互动模式。</p>
-                </div>
-                <div class="btn-row">
-                  <button class="primary" data-go="self-quiz">开始探索</button>
-                  <button class="secondary" data-go="self-result">看画像</button>
-                </div>
+                <div><h2>探索自己</h2><p>什么让你安心，什么让你委屈？从几个小问题开始，听听自己的心里话。</p></div>
+                <div class="btn-row single"><button class="primary" type="button" data-go="self-quiz">开始探索</button></div>
               </article>
               <article class="entry-card review" data-od-id="entry-review">
-                <div>
-                  <h2>冲突复盘</h2>
-                  <p>从真实发生的关系冲突出发，区分事实、感受、需求和互动模式。</p>
-                </div>
-                <div class="btn-row single">
-                  <button class="primary" data-go="create-review">创建复盘</button>
-                </div>
+                <div><h2>冲突复盘</h2><p id="draftHint">有句话还堵在心里吗？说说发生了什么，也说说你当时的感受。</p></div>
+                <div class="btn-row single"><button class="primary" id="reviewHomeButton" type="button" data-go="create-review">开始复盘</button></div>
               </article>
             </div>
-            <article class="loop-card" style="margin-top: 14px;" data-od-id="core-loop-card">
-              <h2>两个任务如何连起来</h2>
-              <div class="loop-steps">
-                <div class="loop-step"><b>1</b><span>探索自己，先形成一份只属于你的动态关系画像。</span></div>
-                <div class="loop-step"><b>2</b><span>冲突复盘记录真实情境，看见双方说法不同和互动循环。</span></div>
-                <div class="loop-step"><b>3</b><span>复盘后的行为证据和修复行动，回写为下一次更懂自己的线索。</span></div>
-              </div>
+            <article class="card" style="margin-top:12px;" data-od-id="loop-note-card">
+              <h2>每次说起，都多懂一点</h2>
+              <p class="mini-copy">探索时发现的小心思，可以带到复盘里看看。这里还是试用原型，复盘用本地模板演示，还没接入真正的 AI。</p>
             </article>
           </section>
 
           <section class="screen" id="self-quiz" data-od-id="screen-self-quiz">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow">自我探索</p>
-                <h1 class="mini-title">这不是人格测试</h1>
-                <p class="mini-copy">它只帮助你看到当前在关系里的敏感点、需要和可尝试行动。</p>
-              </div>
-              <span class="meta" id="quizMeta">2/5</span>
+              <div><p class="eyebrow">探索自己</p><h1 class="mini-title">逐题保存当前线索</h1><p class="mini-copy">每题都需要选择后才能继续，之后可以返回修改。</p></div>
+              <span class="meta" id="quizMeta">1/6</span>
             </div>
             <div class="progress" aria-label="探索进度"><span id="quizProgress"></span></div>
-            <article class="card" data-od-id="quiz-question-card">
-              <p class="eyebrow">当前倾向</p>
-              <h2 id="quizQuestion">当对方没有及时回应时，我容易反复确认关系是否还安全。</h2>
-              <div class="likert" role="radiogroup" aria-label="1 到 5 分选择" data-od-id="likert-control">
-                <button data-score="1" role="radio" aria-checked="false">1</button>
-                <button data-score="2" role="radio" aria-checked="false">2</button>
-                <button data-score="3" class="active" role="radio" aria-checked="true">3</button>
-                <button data-score="4" role="radio" aria-checked="false">4</button>
-                <button data-score="5" role="radio" aria-checked="false">5</button>
-              </div>
-              <p class="mini-copy" style="margin-top: 14px;">这只是当前状态，不是固定标签。</p>
+            <article class="card" data-od-id="quiz-dynamic-card">
+              <p class="eyebrow" id="quizType">当前问题</p>
+              <h2 id="quizQuestion"></h2>
+              <p class="mini-copy" id="quizHelp"></p>
+              <div id="quizChoices" class="choice-grid" style="margin-top:14px;"></div>
+              <p class="inline-error" id="quizError" role="alert">哪一个更像此刻的你？选好后再继续吧。</p>
             </article>
-            <article class="card" style="margin-top: 12px;" data-od-id="needs-selector">
-              <h2>这次最想被看见的需要</h2>
-              <div class="chip-row" style="margin-top: 12px;">
-                <button class="chip selected" aria-pressed="true">被回应</button>
-                <button class="chip" aria-pressed="false">被尊重</button>
-                <button class="chip selected" aria-pressed="true">安全感</button>
-                <button class="chip" aria-pressed="false">空间</button>
-                <button class="chip" aria-pressed="false">承诺</button>
-              </div>
-            </article>
-            <div class="btn-row">
-              <button class="ghost" id="prevQuestion">上一题</button>
-              <button class="primary" id="nextQuestion">下一题</button>
-            </div>
-            <div class="btn-row single">
-              <button class="secondary" data-go="self-result">生成当前结果</button>
-            </div>
+            <div class="btn-row"><button class="ghost" id="prevQuestion" type="button">上一题</button><button class="primary" id="nextQuestion" type="button">下一步</button></div>
           </section>
 
           <section class="screen" id="self-result" data-od-id="screen-self-result">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow">关系画像</p>
-                <h1 class="mini-title">一份会被真实情境更新的自我理解</h1>
-                <p class="mini-copy">它来自探索题组，也会吸收你在冲突复盘中确认过的行为线索。</p>
-              </div>
-              <div class="avatar">私</div>
+              <div><p class="eyebrow">当前关系线索</p><h1 class="mini-title">这是此刻的你，不是定义</h1><p class="mini-copy">先把你说过的心里话放在一起看看。不贴标签，也不急着下结论，以后还可以慢慢补充。</p></div>
+              <button class="avatar-btn" type="button" data-go="mine" aria-label="进入我的"><span class="puppy-avatar" aria-hidden="true"><span class="puppy-head"><i class="puppy-eyes"></i><i class="puppy-nose"></i></span></span><span class="mine-label">我</span></button>
             </div>
-            <article class="card soft-card" data-od-id="non-diagnosis-notice">
-              <strong>分析范围</strong>
-              <p class="mini-copy">画像默认仅本人可见。用于某次复盘或回写新线索时，都需要按字段确认。</p>
-            </article>
-            <article class="card" style="margin-top: 12px;" data-od-id="self-score-overview">
-              <h2>维度概览</h2>
-              <div class="score-row">
-                <div class="score"><span>焦虑敏感</span><div class="bar"><span style="--value: 62%;"></span></div><b>中等</b></div>
-                <div class="score"><span>回避敏感</span><div class="bar"><span style="--value: 38%;"></span></div><b>偏低</b></div>
-                <div class="score"><span>情绪调节</span><div class="bar"><span style="--value: 58%;"></span></div><b>中等</b></div>
-                <div class="score"><span>冲突应对</span><div class="bar"><span style="--value: 70%;"></span></div><b>需练习</b></div>
-              </div>
-            </article>
-            <article class="card" style="margin-top: 12px;" data-od-id="trigger-action-card">
-              <h2>来自探索与复盘的线索</h2>
-              <p class="mini-copy">当回应延迟、计划不确定或语气突然变冷时，你可能更需要确认和稳定感；这条线索可在后续复盘中继续校正。</p>
-              <div class="chip-row" style="margin-top: 12px;">
-                <span class="chip active">先暂停 20 分钟</span>
-                <span class="chip active">说出一个事实</span>
-                <span class="chip active">提出一个请求</span>
-              </div>
-            </article>
-            <div class="btn-row">
-              <button class="primary">更新关系画像</button>
-              <button class="secondary" data-go="create-review">用于一次复盘</button>
-            </div>
+            <div class="section-stack" id="selfResultContent"></div>
           </section>
 
           <section class="screen" id="create-review" data-od-id="screen-create-review">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow">冲突复盘</p>
-                <h1 class="mini-title">从一次真实发生的关系冲突开始</h1>
-                <p class="mini-copy">一方可以先记录，也可以邀请伴侣补充视角；确认后的线索会反过来丰富关系画像。</p>
-              </div>
+              <div><p class="eyebrow">冲突复盘</p><h1 class="mini-title">我从这场冲突感受到的</h1><p class="mini-copy">从你记得的那一刻说起吧。委屈、失落，或还没想明白的感受，都可以写下来。</p></div>
             </div>
-            <div class="stepper" data-od-id="review-stepper">
-              <span class="step current">事件</span>
-              <span class="step">我的视角</span>
-              <span class="step">邀请</span>
-              <span class="step">确认</span>
-            </div>
-            <article class="card" data-od-id="event-form">
-              <div class="field">
-                <label for="eventTitle">事件标题</label>
-              <input class="input" id="eventTitle" value="因为周末见面安排吵架" aria-describedby="eventTitleError" />
-              <div class="field-error" id="eventTitleError" role="alert">请先写一个具体事件标题，才能进入下一步。</div>
-              </div>
-              <div class="field">
-                <label for="eventDate">发生时间</label>
-                <input class="input" id="eventDate" value="2026-08-24 20:30" />
-              </div>
-              <div class="field">
-                <label>主题标签</label>
-                <div class="chip-row">
-                  <span class="chip selected">陪伴</span>
-                  <span class="chip selected">回应</span>
-                  <span class="chip">边界</span>
-                  <span class="chip">未来规划</span>
-                </div>
-              </div>
-              <div class="field">
-                <label>当前状态</label>
-                <div class="chip-row">
-                  <span class="chip selected">已暂停</span>
-                  <span class="chip">冷战中</span>
-                  <span class="chip">已和好</span>
-                </div>
-              </div>
-            </article>
-            <article class="card" style="margin-top: 12px;" data-od-id="my-statement-form">
-              <h2>我的视角</h2>
-              <div class="field">
-                <label for="facts">发生了什么</label>
-                <textarea class="textarea" id="facts">对方临时说周末可能要加班，我追问了三次能不能确定。</textarea>
-              </div>
-              <div class="field">
-                <label for="interpretation">我怎么理解</label>
-                <textarea class="textarea" id="interpretation">我当时理解成这次见面不重要，但这只是我的解释，需要确认。</textarea>
-              </div>
-              <div class="field">
-                <label>安全筛查</label>
-                <div class="notice">未发现身体暴力、威胁、强迫或紧急危险关键词。仍可手动查看安全提示。</div>
-              </div>
-            </article>
-            <article class="card soft-card" style="margin-top: 12px;" data-od-id="invite-card">
-              <div class="row"><h2>邀请伴侣独立填写</h2><span class="meta">48h 有效</span></div>
-              <p class="mini-copy">对方填写前不会看到你的完整陈述。双方都提交后，AI 才整理共同复盘。</p>
-              <div class="btn-row">
-                <button class="primary" id="sendInvite">发送给伴侣</button>
-                <button class="secondary" data-go="report">暂时单方复盘</button>
-              </div>
-            </article>
-            <div class="notice" id="inviteStatus" role="status" style="display: none; margin-top: 12px;">邀请已发出，等对方确认是否参与。</div>
+            <div class="stepper" id="reviewStepper" data-od-id="review-stepper"></div>
+            <article class="card" id="reviewStepCard" data-od-id="review-step-card"></article>
+            <div class="btn-row"><button class="ghost" id="reviewBack" type="button">上一步</button><button class="primary" id="reviewNext" type="button">下一步</button></div>
+            <div class="btn-row single"><button class="secondary" id="saveDraftExit" type="button">先存下来，歇一会儿</button></div>
+            <p class="inline-error" id="reviewError" role="alert">这里还有一点没写完。补上后，我们再往下走。</p>
           </section>
 
+          <section class="screen" id="invited-person" data-od-id="screen-invited-person">
+            <div class="mini-header"><div><p class="eyebrow">受邀者视角 · 本机演示</p><h1 class="mini-title">你的那一面，也值得被听见</h1></div></div>
+            <div class="section-stack" id="recipientContent"></div>
+            <button class="ghost" id="leaveRecipient" type="button">结束演示，回到发起者</button>
+          </section>
           <section class="screen" id="report" data-od-id="screen-report">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow">共同复盘</p>
-                <h1 class="mini-title">基于你们提供的信息整理</h1>
-                <p class="mini-copy">不生成胜负判决，不使用人格标签，也不做责任百分比。</p>
-              </div>
+              <div><p class="eyebrow" id="reportEyebrow">单方复盘</p><h1 class="mini-title" id="reportTitle">从你说过的话开始</h1><p class="mini-copy" id="reportIntro">这里先整理你的说法，不能验证事情经过，也不能替对方猜心。</p></div>
             </div>
-            <article class="card soft-card" data-od-id="report-scope">
-              <div class="row"><strong>信息完整度</strong><span class="meta">双方已提交</span></div>
-              <p class="mini-copy">共识和分歧会分开呈现，无法确认的部分会标为待确认。</p>
-            </article>
-            <article class="card" style="margin-top: 12px;" data-od-id="report-state-coverage">
-              <h2>报告状态</h2>
-              <div class="state-strip">
-                <div class="state-row"><b>空状态</b><span>还没有双方陈述时，只保存草稿，不生成报告。</span></div>
-                <div class="state-row"><b>加载中</b><span>正在整理双方陈述，优先区分事实、解释和感受。</span></div>
-                <div class="state-row"><b>可重试</b><span>生成或校验失败时保留原始输入，允许稍后重试。</span></div>
-              </div>
-            </article>
+            <div id="reportStatusArea" class="section-stack"></div>
             <nav class="report-nav" role="tablist" aria-label="报告分区" data-od-id="report-section-tabs">
-              <button class="active" role="tab" aria-selected="true">共识事实</button>
-              <button role="tab" aria-selected="false">分歧说法</button>
-              <button role="tab" aria-selected="false">互动循环</button>
-              <button role="tab" aria-selected="false">修复行动</button>
+              <button class="active" type="button" role="tab" aria-selected="true" data-tab="consensus">共识事实</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="difference">分歧说法</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="loop">互动循环</button>
+              <button type="button" role="tab" aria-selected="false" data-tab="repair">修复行动</button>
             </nav>
-            <div class="accordion" data-od-id="report-accordion">
-              <details open>
-                <summary>双方一致的事实</summary>
-                <p>周末见面安排发生变化；一方连续追问确认时间，另一方回复变短并表示需要先处理工作。</p>
-              </details>
-              <details>
-                <summary>尚有分歧的说法</summary>
-                <p>一方感到被忽视，另一方认为自己只是暂时无法承诺。这里仍需要共同确认“及时回复”的期待。</p>
-              </details>
-              <details>
-                <summary>感受与需要</summary>
-                <p>可能同时存在确认感、空间感和被尊重的需要。建议先说自己的感受，再请对方补充版本。</p>
-              </details>
-              <details open>
-                <summary>责任地图</summary>
-                <div class="map">
-                  <div class="map-item"><strong>我可以负责：</strong>减少连续追问，先说明“我需要确认感”。</div>
-                  <div class="map-item"><strong>对方可以选择：</strong>给出可更新的时间点，而不是只回复“再说”。</div>
-                  <div class="map-item"><strong>一起确认：</strong>临时变化时，多久内回复对双方都可接受。</div>
-                </div>
-              </details>
-            </div>
-            <article class="card" style="margin-top: 12px;" data-od-id="repair-actions">
-              <h2>可尝试的修复行动</h2>
-              <div class="chip-row" style="margin-top: 12px;">
-                <span class="chip selected">今晚暂停争论</span>
-                <span class="chip selected">明天 20:30 谈 20 分钟</span>
-                <span class="chip">确认回复期待</span>
-              </div>
-              <div class="btn-row single">
-                <button class="primary">选择并回写</button>
-              </div>
-            </article>
+            <div id="reportPanels" data-od-id="report-panels"></div>
           </section>
 
           <section class="screen safe-screen" id="safety" data-od-id="screen-safety">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow" style="color: var(--danger);">安全提示</p>
-                <h1 class="mini-title">这可能已经超出普通情侣冲突</h1>
-                <p class="mini-copy">请优先确保人身安全。本产品不能替代心理治疗、法律建议或家暴风险评估。</p>
-              </div>
+              <div><p class="eyebrow" style="color:var(--danger);">安全分流</p><h1 class="mini-title">先照顾好你的安全</h1><p class="mini-copy">复盘已暂停，现在先照顾你的安全。你不需要在这里解释清楚，也不需要急着和好。</p></div>
             </div>
             <div class="section-stack">
-              <article class="card danger-card" data-od-id="safety-priority">
-                <h2>先保护现实安全</h2>
-                <p class="mini-copy">如果正在发生伤害、威胁、强迫、跟踪或严重控制，请联系可信任的人或当地紧急/专业支持。</p>
-              </article>
-              <article class="card" data-od-id="safety-boundary">
-                <h2>停止普通复盘</h2>
-                <p class="mini-copy">此时不继续生成双方调解式建议，也不使用轻松的“审判庭”表达。</p>
-              </article>
-              <div class="btn-row single">
-                <button class="danger">保存为私密记录</button>
-                <button class="danger" id="deleteExit">删除并退出</button>
-                <button class="ghost">查看支持资源</button>
-              </div>
+              <article class="card danger-card"><h2>这些情况，需要先认真对待</h2><p id="riskSummary">涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险时，请优先联系可信任的人或当地紧急/专业支持。</p></article>
+              <article class="card"><h2>现在可以做的事</h2><div class="btn-row single"><button class="danger" id="safeExit" type="button">安全退出</button><button class="secondary" id="privateSave" type="button">仅存本机</button><button class="danger" id="deleteFromSafety" type="button">删除这次记录</button></div></article>
             </div>
           </section>
 
-          <section class="screen" id="settings" data-od-id="screen-settings">
+          <section class="screen" id="mine" data-od-id="screen-mine">
             <div class="mini-header">
-              <div>
-                <p class="eyebrow">二级入口</p>
-                <h1 class="mini-title">关系画像、历史与隐私</h1>
-                <p class="mini-copy">不占用一级首页，只在需要查看记录、授权或删除数据时进入。</p>
-              </div>
-              <div class="avatar">我</div>
+              <div><p class="eyebrow">我的</p><h1 class="mini-title">我的小角落</h1></div>
+              <div class="avatar" role="img" aria-label="小狗头像"><span class="puppy-avatar" aria-hidden="true"><span class="puppy-head"><i class="puppy-eyes"></i><i class="puppy-nose"></i></span></span></div>
             </div>
             <div class="section-stack">
-              <article class="card" data-od-id="self-profile-privacy">
-                <div class="row"><h2>自我档案</h2><span class="chip active">仅本人</span></div>
-                <p class="mini-copy">用于复盘前按字段授权，默认不分享给伴侣。</p>
-              </article>
-              <article class="card" data-od-id="permission-settings">
-                <h2>授权管理</h2>
-                <div class="list" style="margin-top: 12px;">
-                  <div class="list-item"><strong>周末见面安排</strong><span class="meta">已授权：关系需要、边界备注</span></div>
-                  <div class="list-item"><strong>伴侣邀请</strong><span class="meta">可撤回，撤回后链接失效</span></div>
-                </div>
-              </article>
-              <article class="card" data-od-id="export-delete">
-                <h2>导出与删除</h2>
-                <p class="mini-copy">导出默认不包含伴侣未授权的原始陈述。彻底删除需要二次确认。</p>
-                <div class="btn-row">
-                  <button class="secondary">导出数据</button>
-                  <button class="danger" id="openDelete">彻底删除</button>
-                </div>
-              </article>
+              <article class="card" data-od-id="mine-profile"><h2>我的性别与头像</h2><div class="profile-picker"></div></article>
+              <article class="card" data-od-id="mine-companion"><div class="row"><h2>和你，慢慢靠近</h2><button class="secondary" type="button" data-go="companion">伴侣与关怀</button></div><p class="mini-copy">绑定要两个人都点头。想被怎样照顾，也由你自己决定。</p></article>
+              <article class="card"><div class="row"><h2>关系画像</h2><button class="secondary-link" type="button" data-go="self-result">查看</button></div><p class="mini-copy">这里放着你对自己的小发现。使用共用设备时，也记得照顾好自己的隐私。</p></article>
+              <article class="card"><div class="row"><h2>历史记录</h2><span class="meta">演示数据</span></div><div class="list" style="margin-top:12px;" id="historyList"></div></article>
+              <article class="card"><h2>授权管理</h2><p class="mini-copy">对方填写前不能看到你的完整陈述；邀请可以撤回，过期后链接失效。</p><div class="btn-row"><button class="secondary" id="withdrawInviteFromMine" type="button">撤回邀请</button><button class="secondary" id="expireInviteFromMine" type="button">标记过期</button></div></article>
+              <article class="card"><h2>导出、删除与隐私说明</h2><p class="mini-copy">导出文件会标注“演示数据”。彻底删除需要二次确认。</p><div class="btn-row"><button class="secondary" id="exportData" type="button">导出数据</button><button class="danger" id="openDelete" type="button">彻底删除</button></div></article>
             </div>
           </section>
 
+          <section class="screen" id="companion" data-od-id="screen-companion">
+            <div class="mini-header"><div><p class="eyebrow">我的 · 伴侣与关怀</p><h1 class="mini-title">把关心，留给彼此</h1><p class="mini-copy">两个人都点头，就把彼此连在一起。经期共享开启后，对方能看见日期，也会收到提前提醒；复盘和画像仍按各自的授权分享。</p></div></div>
+            <div class="section-stack" id="bindingContent"></div>
+            <article class="card section-stack" data-od-id="cycle-care" style="margin-top:16px;">
+              <h2>那几天，想被怎样照顾？</h2><p class="mini-copy">如果经期与你有关，可以选填；不想记录也没关系。这里只记下你的观察，不判断激素水平，也不用它解释争执或否定感受。</p>
+              <div class="field"><label for="careObservation">你有没有留意到，经期前更容易情绪起伏，或更想被照顾？</label><select class="input" id="careObservation"><option value="skip">先跳过</option><option value="yes">有一点，想记下来</option><option value="unsure">还不确定，想慢慢观察</option><option value="no">暂时没有这个感觉</option></select></div>
+              <div id="cycleFields" class="section-stack" hidden>
+                <div class="field"><label for="careLast">最近一次经期开始日期</label><input class="input" id="careLast" type="date"></div>
+                <div class="field"><label for="careNext">你预计下一次开始的日期（选填）</label><input class="input" id="careNext" type="date"><p class="mini-copy">由你自己填写，不做医学预测。不确定时留空，提醒就不会启动。</p></div>
+                <div class="field"><label for="careLead">希望提前几天提醒？</label><select class="input" id="careLead"><option value="0">当天</option><option value="1">提前1天</option><option value="2">提前2天</option><option value="3">提前3天</option><option value="5">提前5天</option><option value="7">提前7天</option></select></div>
+                <div class="field"><label for="careMessage">想让对方收到哪句关心？</label><select class="input" id="careMessage"><option value="gentle">这几天，记得多关心一下我。</option><option value="listen">这几天，我想要多一点耐心和倾听。</option><option value="ask">今天可以问问我，想要什么样的陪伴。</option></select></div>
+                <label class="checkline"><input type="checkbox" id="careLocal">我同意把这些敏感记录保存在当前浏览器</label><p class="mini-copy">本机存储未加密，共用设备上别人可能读到。记录不进入 AI 复盘，不用于推断情绪、判断对错或其他用途。</p>
+                <label class="checkline"><input type="checkbox" id="careShare">和绑定伴侣分享经期日期，并提前提醒对方</label><p class="mini-copy">开启并保存后，对方能看到最近一次经期开始日期、预计下次日期和提醒话语。经期前的感受回答不共享。关闭后停止展示和后续提醒，但无法收回对方已经看过的信息。</p>
+              </div>
+              <p id="careError" role="alert"></p>
+              <div class="btn-row"><button class="primary" id="saveCare" type="button">保存我的选择</button><button class="secondary" id="pauseCare" type="button">关闭经期共享与提醒</button></div>
+              <button class="danger" id="clearCare" type="button">删除身体记录与提醒</button>
+            </article>
+            <article class="card section-stack" data-od-id="care-status" style="margin-top:16px;"><h2>关怀小纸条</h2><p id="careStatus" role="status"></p><p class="mini-copy">本机演示：仅在打开页面时检查日期，不发送消息。关闭页面后不会自动运行，也没有微信通知或后台定时服务。</p><button class="secondary" id="previewCare" type="button">预览伴侣看到的经期与提醒</button><div id="carePreview" aria-live="polite"></div></article>
+          </section>
           <nav class="task-dock" data-od-id="core-task-dock" aria-label="核心功能键">
-            <button class="task-key" type="button" data-go="self-quiz" data-task="self" aria-label="进入探索自己">
-              <span>探索自己</span>
-              <small>更新画像</small>
-            </button>
-            <button class="task-key" type="button" data-go="create-review" data-task="review" aria-label="进入冲突复盘">
-              <span>冲突复盘</span>
-              <small>记录事件</small>
-            </button>
+            <button class="task-key" type="button" data-go="self-quiz" data-task="self" aria-label="进入探索自己"><span>探索自己</span><small>更新线索</small></button>
+            <button class="task-key mine-key" id="mineEntry" type="button" data-go="mine" data-task="mine" data-od-id="dock-mine-entry" aria-label="进入我的"><span class="puppy-avatar" aria-hidden="true"><span class="puppy-head"><i class="puppy-eyes"></i><i class="puppy-nose"></i></span></span><span class="mine-label">我</span></button>
+            <button class="task-key" type="button" data-go="create-review" data-task="review" aria-label="进入冲突复盘"><span>冲突复盘</span><small>记录事件</small></button>
           </nav>
 
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
           <div class="delete-modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteDialogTitle" data-od-id="delete-confirm-modal">
             <article class="modal-card">
               <h2 id="deleteDialogTitle">确认彻底删除？</h2>
-              <p class="mini-copy" style="margin-top: 8px;">删除后，这条记录、双方陈述、AI 报告和修复行动将不可恢复。</p>
-              <div class="btn-row">
-                <button class="ghost" id="cancelDelete">取消</button>
-                <button class="danger" id="confirmDelete">确认删除</button>
-              </div>
+              <p class="mini-copy">删除后，这条记录、双方陈述、AI 报告、邀请状态和修复行动将不可恢复。</p>
+              <div class="btn-row"><button class="ghost" id="cancelDelete" type="button">取消</button><button class="danger" id="confirmDelete" type="button">确认删除</button></div>
             </article>
           </div>
         </div>
       </section>
 
       <aside class="inspector" data-od-id="prototype-inspector">
-        <h2>信息架构</h2>
-        <p>一级只保留两个任务：探索自己与冲突复盘。历史、画像、隐私与设置都降到二级入口。</p>
+        <h2>V2 信息架构</h2>
+        <p>一级仍然只有探索自己和冲突复盘。底部中间的“我”进入我的，承载所有二级与数据相关内容。</p>
         <div class="checklist">
-          <div class="check"><strong>一级入口</strong><p>首页 3 秒内只看到「探索自己」与「冲突复盘」。</p></div>
-          <div class="check"><strong>产品闭环</strong><p>探索形成关系画像，冲突提供真实情境，报告再回写画像。</p></div>
-          <div class="check"><strong>极简一级面</strong><p>一级界面不再承载工作台列表，只保留两个可立即理解的行动选择。</p></div>
-          <div class="check"><strong>二级内容</strong><p>历史、个人档案、隐私与设置从首页模块降为轻量入口。</p></div>
-          <div class="check"><strong>原风格保留</strong><p>沿用柔粉、暖白、墨色、圆角卡片和克制状态色。</p></div>
+          <div class="check"><strong>路径 1：单方复盘</strong><p>首页 → 我的视角 → 感受与需要 → 安全确认 → 生成 AI 复盘（演示）。</p></div>
+          <div class="check"><strong>路径 2：补充对方视角</strong><p>AI 复盘前 → 选填对方视角并标注来源 → 生成复盘 → 分开查看两方叙述。</p></div>
+          <div class="check"><strong>路径 3：高风险分流</strong><p>安全确认勾选高风险项后，普通复盘停止并进入安全提示。</p></div>
+          <div class="check"><strong>探索闭环</strong><p>逐题保存回答，最多选择三项关系需要，结果展示这些小发现，从哪里来。</p></div>
+          <div class="check"><strong>能力边界</strong><p>AI 生成、校验、保存均标注为可用性测试演示，不假装真实后端已运行。</p></div>
         </div>
       </aside>
     </div>
@@ -1115,128 +599,568 @@
     const appBack = document.getElementById('appBack');
     const taskDock = document.querySelector('.task-dock');
     const taskKeys = Array.from(document.querySelectorAll('.task-key'));
-    const modal = document.getElementById('deleteModal');
-    const eventTitle = document.getElementById('eventTitle');
-    const eventTitleError = document.getElementById('eventTitleError');
-    const cancelDelete = document.getElementById('cancelDelete');
-    const quizQuestions = [
-      '当对方没有及时回应时，我容易反复确认关系是否还安全。',
-      '当争执变激烈时，我能先暂停，再回来表达真正的需要。',
-      '当我需要空间时，我能说明回来沟通的时间。',
-      '我能把事实和我的解释分开说。',
-      '我能提出一个具体、可执行的下一步请求。'
-    ];
-    let quizIndex = 1;
+    const toast = document.getElementById('toast');
+    const deleteModal = document.getElementById('deleteModal');
     const screenHistory = [];
+    const storageKey = 'relationship-v2-state';
+    const quizQuestions = [
+      { id: 'late_reply', type: '当前问题', text: '对方没有及时回应时，我通常会怎么反应？', help: '想想最近的自己，选最贴近的那个就好，没有标准答案。', choices: ['反复确认关系是否安全', '先等一等，但心里会紧张', '能说明我需要一个回复时间', '会退开，不太想再表达'] },
+      { id: 'space', type: '当前问题', text: '当我需要空间时，我通常会怎么说？', help: '需要一点自己的空间，也很正常。看看你通常怎么开口。', choices: ['直接消失或冷处理', '说不清，只希望对方懂', '说明我需要空间和回来时间', '担心对方误会，所以不敢说'] },
+      { id: 'conflict_heat', type: '当前问题', text: '争执变激烈时，我比较容易做什么？', help: '不用挑“最好”的答案，选你真的会做的就好。', choices: ['继续追问直到有答案', '沉默或结束对话', '先暂停，再约时间回来谈', '开始证明自己没有错'] },
+      { id: 'fact_interpretation', type: '当前问题', text: '复盘一件事时，我能否区分事实和解释？', help: '例如“对方 2 小时没回”是事实，“对方不在乎我”是解释。', choices: ['经常混在一起', '事后能分开一点', '多数时候能分开说', '需要提示才做得到'] },
+      { id: 'repair_request', type: '当前问题', text: '冲突后，我能否提出一个具体下一步？', help: '例如“明晚 20 分钟只讨论回复期待”。', choices: ['很难，只想对方先改变', '能提出大方向', '能提出时间和行动', '能提出也能听对方版本'] },
+      { id: 'needs', type: '关系需要', text: '当前最想被看见的关系需要是什么？', help: '先挑最在意的三项以内吧。心情变了，也可以回来改。', choices: ['被回应', '被尊重', '安全感', '空间', '稳定承诺', '被理解', '公平分担'] }
+    ];
+    const reviewSteps = ['事件信息', '我的视角', '感受与需要', '希望解决的问题', '安全确认', 'AI 复盘'];
+    const state = {
+      accepted: localStorage.getItem('relationship-v2-consent') === 'true',
+      profile: { gender: 'private', animal: 'dog' },
+      partner: { fact: '', feeling: '', need: '', source: 'retold' },
+      quizIndex: 0,
+      quizAnswers: {},
+      needs: [],
+      reviewStep: 0,
+      draftSaved: false,
+      review: { title: '', date: '', fact: '', interpretation: '', feeling: '', need: '', understand: '', adjust: '', next: '', risks: [] },
+      reportMode: 'empty',
+      inviteStatus: 'none',
+      invitation: null,
+      binding: { status: 'none', selfName: '', partnerName: '', receivesCare: false },
+      cycleCare: { observation: 'skip', last: '', next: '', lead: '3', message: 'gentle', local: false, share: false },
+      aiStatus: 'idle',
+      repairActions: [
+        { id: 'pause', text: '今晚暂停争论，明天 20:30 只谈 20 分钟', selected: true, done: false },
+        { id: 'fact', text: '先各自说一个可观察事实，再说自己的解释', selected: true, done: false },
+        { id: 'reply', text: '共同确认临时变化时多久内回复可接受', selected: false, done: false }
+      ],
+      feedback: ''
+    };
 
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify({
+        profile: state.profile, partner: state.partner, reviewStep: state.reviewStep, aiStatus: state.aiStatus,
+        quizAnswers: state.quizAnswers, needs: state.needs, review: state.review,
+        draftSaved: state.draftSaved, reportMode: state.reportMode,
+        inviteStatus: state.inviteStatus, invitation: state.invitation, repairActions: state.repairActions,
+        binding: state.binding, cycleCare: state.cycleCare.local ? state.cycleCare : undefined
+      }));
+    }
+    function loadState() {
+      try { Object.assign(state, JSON.parse(localStorage.getItem(storageKey) || '{}')); }
+      catch (error) { showToast('草稿读取失败，已保留当前演示状态。'); }
+    }
+    const animalNames = { dog: '小狗', cat: '小猫', rabbit: '小兔', bear: '小熊' };
+    function animalMarkup(animal) {
+      return `<span class="puppy-avatar" data-animal="${animal}" aria-hidden="true"><span class="puppy-head"><i class="puppy-eyes"></i><i class="puppy-nose"></i></span></span>`;
+    }
+    function renderProfileChoices() {
+      const genders = { male: '男生', female: '女生', other: '其他', private: '暂不透露' };
+      document.querySelectorAll('.profile-picker').forEach(picker => {
+        picker.innerHTML = `<fieldset><legend>你的性别是？不想说也没关系</legend><div class="profile-options">${Object.entries(genders).map(([value, label]) => `<button class="profile-choice" type="button" data-gender="${value}" aria-pressed="${state.profile.gender === value}">${label}</button>`).join('')}</div></fieldset><fieldset><legend>今天想让谁陪着你？</legend><div class="animal-options">${Object.entries(animalNames).map(([value, label]) => `<button class="profile-choice" type="button" data-animal-choice="${value}" aria-label="选择${label}头像" aria-pressed="${state.profile.animal === value}">${animalMarkup(value)}<span>${label}</span></button>`).join('')}</div></fieldset>`;
+        picker.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+          const key = button.dataset.gender ? 'gender' : 'animal';
+          state.profile[key] = button.dataset.gender || button.dataset.animalChoice;
+          saveState();
+          const selection = key === 'gender' ? '[data-gender]' : '[data-animal-choice]';
+          document.querySelectorAll('.profile-picker ' + selection).forEach(option => option.setAttribute('aria-pressed', String((option.dataset.gender || option.dataset.animalChoice) === state.profile[key])));
+          syncAnimalAvatars();
+        }));
+      });
+      syncAnimalAvatars();
+    }
+    function syncAnimalAvatars() {
+      document.querySelectorAll('.puppy-avatar').forEach(avatar => {
+        if (!avatar.closest('.profile-picker')) avatar.dataset.animal = state.profile.animal;
+      });
+      const portrait = document.querySelector('#mine .avatar');
+      portrait.setAttribute('aria-label', animalNames[state.profile.animal] + '头像');
+    }
+    function savePartnerFields() {
+      for (const key of ['fact', 'feeling', 'need', 'source']) {
+        const input = document.getElementById('partner-' + key);
+        if (input) state.partner[key] = input.value.trim();
+      }
+      saveState();
+    }
+    function hasPartnerInput() { return Boolean(state.partner.fact || state.partner.feeling || state.partner.need); }
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    }
     function syncAppChrome(id) {
       const isRoot = id === 'home' || id === 'welcome';
       appBack.hidden = isRoot || screenHistory.length === 0;
       taskDock.hidden = id === 'welcome';
       phoneScreen.classList.toggle('has-back', !appBack.hidden);
-
       taskKeys.forEach(key => {
-        const isSelfTask = key.dataset.task === 'self' && (id === 'self-quiz' || id === 'self-result');
-        const isReviewTask = key.dataset.task === 'review' && (id === 'create-review' || id === 'report');
-        const isActive = isSelfTask || isReviewTask;
-        key.classList.toggle('active', isActive);
-        if (isActive) {
-          key.setAttribute('aria-current', 'page');
-        } else {
-          key.removeAttribute('aria-current');
-        }
+        const active = (key.dataset.task === 'self' && (id === 'self-quiz' || id === 'self-result')) || (key.dataset.task === 'review' && (id === 'create-review' || id === 'report')) || (key.dataset.task === 'mine' && (id === 'mine' || id === 'companion'));
+        key.classList.toggle('active', active);
+        active ? key.setAttribute('aria-current', 'page') : key.removeAttribute('aria-current');
       });
     }
-
+    let recipientMode = false;
     function showScreen(id, options = {}) {
+      if (recipientMode && id !== 'invited-person') return;
       const current = screens.find(screen => screen.classList.contains('active'))?.id;
-      if (!options.replace && current && current !== id) {
-        screenHistory.push(current);
-      }
+      if (!options.replace && current && current !== id) screenHistory.push(current);
       screens.forEach(screen => screen.classList.toggle('active', screen.id === id));
       flowButtons.forEach(button => button.classList.toggle('active', button.dataset.go === id));
       syncAppChrome(id);
+      if (id === 'home') renderHomeState();
+      if (id === 'self-quiz') renderQuiz();
+      if (id === 'self-result') renderSelfResult();
+      if (id === 'create-review') renderReviewStep();
+      if (id === 'report') renderReport();
+      if (id === 'mine') renderMine();
+      if (id === 'companion') renderCompanion();
+      if (id === 'invited-person') { appBack.hidden = true; taskDock.hidden = true; renderRecipient(); }
     }
-
-    goButtons.forEach(button => button.addEventListener('click', () => {
-      if (button.disabled) return;
-      showScreen(button.dataset.go);
-    }));
-
-    appBack.addEventListener('click', () => {
-      const previous = screenHistory.pop() || 'home';
-      showScreen(previous, { replace: true });
-    });
-
-    document.getElementById('ageCheck').addEventListener('change', event => {
-      document.getElementById('startBtn').disabled = !event.target.checked;
-    });
-
-    function updateQuiz() {
-      document.getElementById('quizQuestion').textContent = quizQuestions[quizIndex];
-      document.getElementById('quizMeta').textContent = `${quizIndex + 1}/5`;
-      document.getElementById('quizProgress').style.width = `${((quizIndex + 1) / quizQuestions.length) * 100}%`;
+    function renderHomeState() {
+      document.getElementById('draftHint').textContent = state.draftSaved ? '上次的话还没说完，想接着聊聊吗？草稿留在这里。' : '有句话还堵在心里吗？说说发生了什么，也说说你当时的感受。';
+      document.getElementById('reviewHomeButton').textContent = state.draftSaved ? '继续草稿' : '开始复盘';
     }
-    document.getElementById('prevQuestion').addEventListener('click', () => {
-      quizIndex = Math.max(0, quizIndex - 1);
-      updateQuiz();
-    });
-    document.getElementById('nextQuestion').addEventListener('click', () => {
-      quizIndex = Math.min(quizQuestions.length - 1, quizIndex + 1);
-      updateQuiz();
-    });
-    document.querySelectorAll('.likert button').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.likert button').forEach(item => {
-          item.classList.remove('active');
-          item.setAttribute('aria-checked', 'false');
+    function renderQuiz() {
+      const q = quizQuestions[state.quizIndex];
+      document.getElementById('quizMeta').textContent = `${state.quizIndex + 1}/${quizQuestions.length}`;
+      document.getElementById('quizProgress').style.width = `${((state.quizIndex + 1) / quizQuestions.length) * 100}%`;
+      document.getElementById('quizType').textContent = q.type;
+      document.getElementById('quizQuestion').textContent = q.text;
+      document.getElementById('quizHelp').textContent = q.help;
+      document.getElementById('quizError').classList.remove('show');
+      document.getElementById('prevQuestion').disabled = state.quizIndex === 0;
+      document.getElementById('nextQuestion').textContent = state.quizIndex === quizQuestions.length - 1 ? '生成当前线索' : '下一步';
+      const choices = document.getElementById('quizChoices');
+      choices.innerHTML = '';
+      q.choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'choice';
+        button.textContent = choice;
+        const selected = q.id === 'needs' ? state.needs.includes(choice) : state.quizAnswers[q.id] === choice;
+        button.classList.toggle('active', selected);
+        button.setAttribute('aria-pressed', String(selected));
+        button.addEventListener('click', () => {
+          if (q.id === 'needs') {
+            if (state.needs.includes(choice)) state.needs = state.needs.filter(item => item !== choice);
+            else if (state.needs.length < 3) state.needs.push(choice);
+            else showToast('先留下最在意的三项吧，换掉一项就能再选啦。');
+          } else {
+            state.quizAnswers[q.id] = choice;
+          }
+          saveState();
+          renderQuiz();
         });
-        button.classList.add('active');
-        button.setAttribute('aria-checked', 'true');
+        choices.appendChild(button);
       });
-    });
-    document.querySelectorAll('.chip-row button.chip').forEach(button => {
-      button.addEventListener('click', () => {
-        const isSelected = button.classList.toggle('selected');
-        button.setAttribute('aria-pressed', String(isSelected));
-      });
-    });
-    document.querySelectorAll('.report-nav button').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.report-nav button').forEach(item => {
-          item.classList.remove('active');
-          item.setAttribute('aria-selected', 'false');
+    }
+    function canLeaveQuizStep() {
+      const q = quizQuestions[state.quizIndex];
+      return q.id === 'needs' ? state.needs.length > 0 : Boolean(state.quizAnswers[q.id]);
+    }
+    function renderSelfResult() {
+      const answers = state.quizAnswers;
+      const needs = state.needs.length ? state.needs.join('、') : '暂未选择';
+      const sourceCount = Object.keys(answers).length + state.needs.length;
+      document.getElementById('selfResultContent').innerHTML = `
+        <article class="card soft-card"><h2>现在，你更在意这些</h2><p>${needs}</p></article>
+        <article class="card"><h2>哪些时刻，心里会一紧</h2><p>等待回复、计划有变、想独处却不好开口……这些时刻，哪些让你有共鸣？先留意就好，不代表你一定会这样。</p></article>
+        <article class="card"><h2>争执时，你说自己会这样</h2><p>${answers.conflict_heat || '尚未回答冲突升温相关问题'}。下次可以留意：这样做以后，你们更靠近了，还是更难说下去了？</p></article>
+        <article class="card"><h2>可以先试试这一小步</h2><p>试着说：“刚才发生了……我有点……因为我在意……我们能不能……”不用一次就说得很顺。</p></article>
+        <article class="card"><h2>这些小发现，从哪里来</h2><p>这里整理了你留下的 ${sourceCount} 条回答和选择。它们是不是一直适合你，还要在日常相处里慢慢看看。</p><div class="btn-row single"><button class="secondary" type="button" data-go="create-review">带着一件小事，继续聊聊</button></div></article>
+      `;
+      document.querySelector('#selfResultContent [data-go]').addEventListener('click', event => showScreen(event.currentTarget.dataset.go));
+    }
+    function renderReviewStep() {
+      document.getElementById('reviewStepper').innerHTML = reviewSteps.map((label, index) => `<span class="step ${index === state.reviewStep ? 'current' : ''}">${label}</span>`).join('');
+      document.getElementById('reviewError').classList.remove('show');
+      document.getElementById('reviewBack').disabled = state.reviewStep === 0;
+      const next = document.getElementById('reviewNext');
+      next.style.display = 'block';
+      next.textContent = state.reviewStep === reviewSteps.length - 1 ? '生成 AI 复盘' : '下一步';
+      const r = state.review;
+      const views = [
+        `<h2>事件信息</h2><div class="field"><label for="reviewTitle">事件标题</label><input class="input" id="reviewTitle" value="${escapeHtml(r.title)}" placeholder="例如：因为周末见面安排吵架"></div><div class="field"><label for="reviewDate">发生时间</label><input class="input" id="reviewDate" value="${escapeHtml(r.date)}" placeholder="例如：2026-08-24 晚上"></div>`,
+        `<h2>我的视角</h2><div class="field"><label for="reviewFact">可观察事实</label><textarea class="textarea" id="reviewFact" placeholder="只写看得见、听得到、发生过的内容">${escapeHtml(r.fact)}</textarea></div><div class="field"><label for="reviewInterpretation">我的解释</label><textarea class="textarea" id="reviewInterpretation" placeholder="例如：我当时理解成这次见面不重要">${escapeHtml(r.interpretation)}</textarea></div>`,
+        `<h2>我从这场冲突感受到的</h2><div class="field"><label for="reviewFeeling">我的感受</label><textarea class="textarea" id="reviewFeeling" placeholder="例如：失落、紧张、委屈、愤怒">${escapeHtml(r.feeling)}</textarea></div><div class="field"><label for="reviewNeed">我在意的需要</label><textarea class="textarea" id="reviewNeed" placeholder="例如：被回应、提前说明、被尊重">${escapeHtml(r.need)}</textarea></div>`,
+        `<h2>希望解决的问题</h2><div class="field"><label for="reviewUnderstand">我希望对方理解什么</label><textarea class="textarea" id="reviewUnderstand">${escapeHtml(r.understand)}</textarea></div><div class="field"><label for="reviewAdjust">我愿意调整什么</label><textarea class="textarea" id="reviewAdjust">${escapeHtml(r.adjust)}</textarea></div><div class="field"><label for="reviewNextStep">本次想达成的下一步</label><textarea class="textarea" id="reviewNextStep">${escapeHtml(r.next)}</textarea></div>`,
+        `<h2>安全确认</h2><p class="mini-copy">继续前，请确认是否有这些情况。这里不会自动识别危险，请按实际情况选择。</p><div class="risk-grid">${['伤害或威胁','强迫或严重控制','跟踪或恐吓','自伤风险','以上都没有'].map(item => `<label><input type="checkbox" value="${item}" ${r.risks.includes(item) ? 'checked' : ''}>${item}</label>`).join('')}</div>`,
+        `<h2>写好了，我们一起理一理</h2><p class="mini-copy">先从你的感受出发，就足够开始了。对方有话想说，也可以补充在下面。两种说法会分开放，不急着合成一个答案。</p><details class="partner-details" ${hasPartnerInput() ? 'open' : ''}><summary>补充对方的视角（选填）</summary><p class="mini-copy">如果对方愿意，可以用这台设备写下自己的话。这里不会发送邀请。由你转述也可以，记得把猜测和对方说过的话分开哦。</p><div class="field"><label for="partner-source">这段补充来自谁</label><select class="input" id="partner-source"><option value="retold" ${state.partner.source === 'retold' ? 'selected' : ''}>由我转述，尚需对方确认</option><option value="partner" ${state.partner.source === 'partner' ? 'selected' : ''}>由对方本人在本机填写</option></select></div><div class="field"><label for="partner-fact">对方眼中发生了什么</label><textarea class="textarea" id="partner-fact">${escapeHtml(state.partner.fact)}</textarea></div><div class="field"><label for="partner-feeling">对方表达的感受</label><textarea class="textarea" id="partner-feeling">${escapeHtml(state.partner.feeling)}</textarea></div><div class="field"><label for="partner-need">对方在意什么，希望我理解什么</label><textarea class="textarea" id="partner-need">${escapeHtml(state.partner.need)}</textarea></div><label class="notice checkline"><input id="partner-risk" type="checkbox"><span>补充中涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险</span></label></details><p class="mini-copy">小提醒：这版复盘先用本地模板演示，还没接入真实 AI。写下的话只保存在当前浏览器里，共用设备时也请留意隐私。</p><div class="btn-row single"><button class="primary" id="submitSingle" type="button">生成 AI 复盘</button></div><div class="btn-row"><button class="ghost" id="simulateFail" type="button">模拟生成失败</button><button class="ghost" id="simulateInvalid" type="button">模拟结构校验失败</button></div>`
+      ];
+      document.getElementById('reviewStepCard').innerHTML = views[state.reviewStep];
+      wireReviewStepControls();
+    }
+    function wireReviewStepControls() {
+      if (state.reviewStep === 4) {
+        document.querySelectorAll('#reviewStepCard input[type="checkbox"]').forEach(input => input.addEventListener('change', () => {
+          let values = Array.from(document.querySelectorAll('#reviewStepCard input:checked')).map(item => item.value);
+          if (input.checked && input.value === '以上都没有') values = ['以上都没有'];
+          else if (values.length > 1) values = values.filter(value => value !== '以上都没有');
+          state.review.risks = values;
+          saveState();
+          if (values.some(item => item !== '以上都没有')) {
+            document.getElementById('riskSummary').textContent = `你选择了：${values.join('、')}。普通复盘已停止。`;
+            showScreen('safety');
+            return;
+          }
+          renderReviewStep();
+        }));
+      }
+      if (state.reviewStep === 5) {
+        document.getElementById('reviewNext').style.display = 'none';
+        document.getElementById('submitSingle').addEventListener('click', () => beginReport('single'));
+        document.querySelectorAll('#reviewStepCard textarea, #reviewStepCard select').forEach(input => input.addEventListener('input', savePartnerFields));
+        document.getElementById('partner-risk').addEventListener('change', event => {
+          if (!event.target.checked) return;
+          savePartnerFields();
+          state.review.risks = ['对方补充涉及高风险'];
+          saveState();
+          document.getElementById('riskSummary').textContent = '对方补充涉及高风险，普通复盘已停止。';
+          showScreen('safety');
         });
+        document.getElementById('simulateFail').addEventListener('click', () => beginReport('fail'));
+        document.getElementById('simulateInvalid').addEventListener('click', () => beginReport('invalid'));
+      }
+    }
+    function saveReviewStep() {
+      const r = state.review;
+      if (state.reviewStep === 0) { r.title = document.getElementById('reviewTitle').value.trim(); r.date = document.getElementById('reviewDate').value.trim(); return Boolean(r.title && r.date); }
+      if (state.reviewStep === 1) { r.fact = document.getElementById('reviewFact').value.trim(); r.interpretation = document.getElementById('reviewInterpretation').value.trim(); return Boolean(r.fact && r.interpretation); }
+      if (state.reviewStep === 2) { r.feeling = document.getElementById('reviewFeeling').value.trim(); r.need = document.getElementById('reviewNeed').value.trim(); return Boolean(r.feeling && r.need); }
+      if (state.reviewStep === 3) { r.understand = document.getElementById('reviewUnderstand').value.trim(); r.adjust = document.getElementById('reviewAdjust').value.trim(); r.next = document.getElementById('reviewNextStep').value.trim(); return Boolean(r.understand && r.adjust && r.next); }
+      if (state.reviewStep === 4) return state.review.risks.length > 0;
+      if (state.reviewStep === 5) savePartnerFields();
+      return true;
+    }
+    function beginReport(mode) {
+      savePartnerFields();
+      if (state.review.risks.some(item => item !== '以上都没有')) { showScreen('safety'); return; }
+      if (!['title', 'date', 'fact', 'interpretation', 'feeling', 'need', 'understand', 'adjust', 'next'].every(key => state.review[key]?.trim()) || !state.review.risks.includes('以上都没有')) {
+        showToast('先把你的经历和感受写好，再确认一下安全情况，就能开始整理了。');
+        state.reviewStep = 0;
+        showScreen('create-review');
+        return;
+      }
+      state.draftSaved = false;
+      state.reportMode = mode === 'waiting' ? 'waiting' : 'single';
+      if (mode === 'waiting') state.inviteStatus = 'sent';
+      state.aiStatus = mode === 'fail' ? 'failed' : mode === 'invalid' ? 'invalid' : 'loading';
+      saveState();
+      renderHomeState();
+      showScreen('report');
+      if (state.aiStatus === 'loading') window.setTimeout(() => { state.aiStatus = 'ready'; saveState(); renderReport(); }, 800);
+    }
+    function renderReport() {
+      if (state.inviteStatus === 'sent' && state.invitation && Date.now() >= state.invitation.expiresAt) {
+        state.inviteStatus = 'expired'; state.reportMode = 'single'; saveState();
+      }
+      const waiting = state.reportMode === 'waiting';
+      const joint = state.reportMode === 'joint';
+      const empty = state.reportMode === 'empty';
+      document.getElementById('reportEyebrow').textContent = empty ? '报告空状态' : waiting ? '邀请等待' : joint ? '共同复盘' : '单方复盘';
+      document.getElementById('reportTitle').textContent = empty ? '还没有聊过的事' : waiting ? '伴侣尚未提交' : joint ? '双方已独立提交' : hasPartnerInput() ? '我的视角 · 含对方视角补充' : '从你说过的话开始';
+      document.getElementById('reportIntro').textContent = empty ? '可以从一件想说的事开始，也可以接着写上次的草稿。' : waiting ? '邀请 48 小时有效。你可以撤回邀请，也可以先查看单方结果。' : joint ? '共识事实、分歧说法和无法确认内容会分开呈现。' : '这里先整理你的说法，不能验证事情经过，也不能替对方猜心。';
+      document.getElementById('reportStatusArea').innerHTML = renderReportStatus();
+      document.getElementById('reportPanels').innerHTML = renderReportPanels();
+      wireReportControls();
+    }
+    function renderReportStatus() {
+      if (state.inviteStatus === 'submitted' && state.aiStatus === 'ready') return '<article class="card soft-card"><h2>对方也留下了自己的话</h2><p>本机演示：补充已加入“分歧说法”。两种说法仍分别保留，不会自动变成共同事实，也不代表验证了填写者身份。</p></article>';
+      if (state.reportMode === 'empty') return `<article class="card"><h2>想从哪件事说起？</h2><p>还没写好的话，可以先留在草稿里。等你准备好了，再来理一理。</p><div class="btn-row single"><button class="primary" type="button" data-go="create-review">开始复盘</button></div></article>`;
+      if (state.aiStatus === 'loading') return `<article class="card soft-card"><h2>正在把你的话理一理</h2><p>稍等一下，正在整理你写下的经历和感受。这是本地模板演示，不会调用真实 AI。</p><div class="loader" aria-hidden="true"></div></article>`;
+      if (state.aiStatus === 'failed') return `<article class="card danger-card"><h2>这次没整理好，再试一次？</h2><p>这是生成失败的演示。你写下的话还在，不用重新写。</p><button class="primary" id="retryGenerate" type="button">重试生成</button></article>`;
+      if (state.aiStatus === 'invalid') return `<article class="card danger-card"><h2>这份整理还不完整</h2><p>这次演示的结果缺了内容，先不把它当成完整复盘。你写下的话还在，可以重试。</p><button class="primary" id="retryGenerate" type="button">重试生成</button></article>`;
+      if (state.reportMode === 'waiting') return `<article class="card soft-card"><div class="row"><h2>邀请已发送</h2><span class="meta">48h 有效</span></div><p>对方未提交前看不到你的完整陈述。</p><div class="btn-row"><button class="secondary" id="withdrawInvite" type="button">撤回邀请</button><button class="secondary" id="showSingle" type="button">先查看单方结果</button></div><div class="btn-row"><button class="ghost" id="simulatePartner" type="button">填写对方视角</button><button class="ghost" id="declineInvite" type="button">伴侣拒绝参与</button></div><div class="btn-row single"><button class="ghost" id="expireInvite" type="button">邀请过期</button></div></article>`;
+      if (['withdrawn','expired','declined'].includes(state.inviteStatus)) {
+        const label = { withdrawn: '邀请已撤回', expired: '邀请已过期', declined: '伴侣拒绝参与' }[state.inviteStatus];
+        return `<article class="card"><h2>${label}</h2><p>你仍可继续查看单方复盘。报告不会把伴侣的感受、需要或责任当作已知事实。</p></article>`;
+      }
+      return `<article class="card soft-card"><div class="row"><h2>${state.reportMode === 'joint' ? '双方已提交' : '单方复盘'}</h2><span class="meta">演示报告</span></div><p>${state.reportMode === 'joint' ? '以下内容区分共识、分歧和无法确认部分。' : '先听见你的感受。对方还没说出口的部分，我们不替对方猜。'}</p></article>`;
+    }
+    function renderReportPanels() {
+      if (state.reportMode === 'empty' || state.aiStatus !== 'ready') return '';
+      const r = Object.fromEntries(Object.entries(state.review).map(([key, value]) => [key, escapeHtml(value)]));
+      const joint = false;
+      const partnerText = hasPartnerInput() ? `${state.partner.source === 'partner' ? '标注为对方本人填写（本机原型不验证身份）' : '由我转述，尚需对方确认'}：<br>事件说法：${escapeHtml(state.partner.fact) || '未补充'}<br>表达的感受：${escapeHtml(state.partner.feeling) || '未补充'}<br>在意的需要：${escapeHtml(state.partner.need) || '未补充'}<br>两段叙述不自动视为一致，不能据此确认共同事实。` : '尚未补充对方视角，不推断对方的感受和需要。';
+      return `
+        <section class="report-panel active" data-panel="consensus"><article class="card"><h2>先说说，这份整理怎么看</h2><p>这里用到的是你写下的经历、想法、感受、需要和下一步。${joint ? '双方陈述已分别提交。' : '以我的视角为主；补充的来源单独标注，内容均未核实。当前为模板演示，不是真实 AI 分析。'}</p></article><article class="card"><h2>回头看看，发生了什么</h2><p>${r.title || '未命名事件'}：${r.fact || '尚未填写可观察事实'}。先不急着分对错。</p></article><article class="card"><h2>${joint ? '双方一致的事实' : '单方可观察事实'}</h2><p>${r.fact || '暂无'}。</p></article></section>
+        <section class="report-panel" data-panel="difference"><article class="card"><h2>我的解释</h2><p>${r.interpretation || '暂无'}。这是当时的理解，不一定是事情的全部，还可以再确认。</p></article><article class="card"><h2>对方的视角与未确认内容</h2><p>${partnerText}</p></article><article class="card"><h2>发生的事，和心里的猜想</h2><p>“发生了什么”和“我觉得这意味着什么”，可以先分开放。你的感受值得被听见，猜想也还需要确认。</p></article></section>
+        <section class="report-panel" data-panel="loop"><article class="card"><h2>你说过的感受，和在意的事</h2><p>${r.feeling || '暂无感受'}；在意的需要：${r.need || '暂无需要'}。</p></article><article class="card"><h2>可能的互动循环</h2><p>现在还不能确定你们总是怎么走进争执的。可以回想：你说出感受后，对话怎么变了？哪一刻更难受，哪一刻松了一口气？</p></article><article class="card"><h2>什么让话更难说，什么能缓一缓</h2><p>可能导致升级：连续追问、把解释当事实。可能有助缓和：约定暂停时长、先复述事实、提出一个具体请求。</p></article></section>
+        <section class="report-panel" data-panel="repair"><article class="card"><h2>我愿意试着调整的部分</h2><p>我愿意调整：${r.adjust || "尚未填写"}。这是我选择的行动，不代表我需要为对方的行为负责。</p></article><article class="card"><h2>挑一个做得到的小行动</h2><div class="state-strip" id="repairList"></div><div class="btn-row"><button class="secondary" id="saveActions" type="button">保存行动</button><button class="secondary" id="editActions" type="button">修改行动</button></div></article><article class="card"><h2>想开口时，可以这样说</h2><p>表达草稿：“发生了 ${r.fact} 时，我感到 ${r.feeling}，因为我在意 ${r.need}。我希望你理解 ${r.understand}。接下来，我们能否尝试 ${r.next}？”读起来不像你的话，就改成你自己的说法吧。</p></article><article class="card"><h2>这些话，有贴近你的感受吗？</h2><p class="mini-copy">有帮到你吗？读起来公平吗？哪里没说对，也可以告诉我们，不会改动你原本的记录。</p><div class="btn-row"><button class="secondary feedback-btn" type="button" data-feedback="有帮助">有帮助</button><button class="secondary feedback-btn" type="button" data-feedback="基本公平">基本公平</button></div><div class="field"><label for="feedbackText">哪里没说到你心里？</label><textarea class="textarea" id="feedbackText">${escapeHtml(state.feedback)}</textarea></div></article></section>
+      `;
+    }
+    function wireReportControls() {
+      if (state.reportMode !== 'empty' && state.aiStatus === 'ready') {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'secondary';
+        button.textContent = '邀请小纸条 / 受邀者演示';
+        button.onclick = openInvitation;
+        document.getElementById('reportStatusArea').append(button);
+      }
+      document.querySelectorAll('.report-nav button').forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('.report-nav button').forEach(item => { item.classList.remove('active'); item.setAttribute('aria-selected', 'false'); });
         button.classList.add('active');
         button.setAttribute('aria-selected', 'true');
+        document.querySelectorAll('.report-panel').forEach(panel => panel.classList.toggle('active', panel.dataset.panel === button.dataset.tab));
+      }));
+      const retry = document.getElementById('retryGenerate');
+      if (retry) retry.addEventListener('click', () => beginReport('single'));
+      const withdraw = document.getElementById('withdrawInvite');
+      if (withdraw) withdraw.addEventListener('click', () => setInviteState('withdrawn'));
+      const expire = document.getElementById('expireInvite');
+      if (expire) expire.addEventListener('click', () => setInviteState('expired'));
+      const decline = document.getElementById('declineInvite');
+      if (decline) decline.addEventListener('click', () => setInviteState('declined'));
+      const showSingle = document.getElementById('showSingle');
+      if (showSingle) showSingle.addEventListener('click', () => { state.reportMode = 'single'; saveState(); renderReport(); });
+      const partner = document.getElementById('simulatePartner');
+      if (partner) partner.addEventListener('click', openInvitation);
+      document.querySelectorAll('#reportStatusArea [data-go]').forEach(button => {
+        button.addEventListener('click', () => showScreen(button.dataset.go));
       });
-    });
-    eventTitle.addEventListener('input', () => {
-      const invalid = eventTitle.value.trim().length === 0;
-      eventTitle.setAttribute('aria-invalid', String(invalid));
-      eventTitleError.classList.toggle('show', invalid);
-    });
-    document.getElementById('sendInvite').addEventListener('click', () => {
-      document.getElementById('inviteStatus').style.display = 'block';
-      document.getElementById('sendInvite').textContent = '已发送邀请';
-    });
-    function openDeleteModal() {
-      modal.classList.add('open');
-      cancelDelete.focus();
+      renderRepairList();
+      document.querySelectorAll('.feedback-btn').forEach(button => button.addEventListener('click', () => { state.feedback = button.dataset.feedback; saveState(); showToast('记下了，谢谢你愿意说说。'); renderReport(); }));
+      const feedbackText = document.getElementById('feedbackText');
+      if (feedbackText) feedbackText.addEventListener('input', () => { state.feedback = feedbackText.value; saveState(); });
     }
+    function renderRepairList() {
+      const list = document.getElementById('repairList');
+      if (!list) return;
+      list.innerHTML = state.repairActions.map(action => `<div class="action-row"><label class="checkline"><input type="checkbox" data-action="${action.id}" ${action.selected ? 'checked' : ''}>${action.text}</label><button class="secondary mark-done" type="button" data-action="${action.id}">${action.done ? '已完成' : '标记完成'}</button></div>`).join('');
+      list.querySelectorAll('input').forEach(input => input.addEventListener('change', () => { state.repairActions.find(item => item.id === input.dataset.action).selected = input.checked; saveState(); }));
+      list.querySelectorAll('.mark-done').forEach(button => button.addEventListener('click', () => { const action = state.repairActions.find(item => item.id === button.dataset.action); action.done = !action.done; saveState(); renderReport(); }));
+      const save = document.getElementById('saveActions');
+      if (save) save.addEventListener('click', () => showToast('选好的行动已留在当前浏览器里，可以慢慢试。'));
+      const edit = document.getElementById('editActions');
+      if (edit) edit.addEventListener('click', () => showToast('想换一小步也可以，勾选或取消下面的行动就好。'));
+    }
+    function setInviteState(status) {
+      state.inviteStatus = status;
+      state.reportMode = 'single';
+      saveState();
+      renderReport();
+      showToast({ withdrawn: '邀请已撤回。', expired: '邀请已过期。', declined: '伴侣拒绝参与，保留单方复盘。' }[status]);
+    }
+    function openInvitation() {
+      if (state.review.risks.some(value => value !== '以上都没有')) { showScreen('safety'); return; }
+      recipientMode = true;
+      showScreen('invited-person', { replace: true });
+      if (!state.invitation || ['withdrawn', 'expired', 'declined'].includes(state.inviteStatus)) prepareInvitation();
+    }
+    function prepareInvitation() {
+      const area = document.getElementById('recipientContent');
+        area.innerHTML = '<article class="card section-stack"><h2>先准备一张小纸条</h2><p>发起者填写：只有你确认分享的这些信息，会显示给受邀者。旧邀请如已撤回、过期或被拒绝，就不能继续填写。</p><div class="field"><label for="shareName">你的称呼</label><input class="input" id="shareName" maxlength="30"></div><div class="field"><label for="shareTopic">愿意分享的事件主题</label><input class="input" id="shareTopic" maxlength="120"></div><div class="field"><label for="shareMessage">想对对方说的话（选填）</label><textarea class="textarea" id="shareMessage" maxlength="1000"></textarea></div><label class="checkline"><input id="shareConsent" type="checkbox">同意分享称呼、当前动物头像、主题和这段话</label><p class="mini-copy">不分享完整陈述、性别、画像与历史。只是本机演示，不会发送消息，也没有真实身份隔离。</p><p id="shareError" role="alert"></p><button class="primary" id="sendPaper" type="button">确认分享，看看对方收到的样子</button></article>';
+        document.getElementById('sendPaper').onclick = () => {
+          const name = document.getElementById('shareName').value.trim();
+          const topic = document.getElementById('shareTopic').value.trim();
+          if (!name || !topic || !document.getElementById('shareConsent').checked) { document.getElementById('shareError').textContent = '写好称呼和主题，再确认愿意分享哦。'; return; }
+          state.invitation = { name, topic, animal: state.profile.animal, message: document.getElementById('shareMessage').value.trim(), expiresAt: Date.now() + 172800000, draft: { fact: '', feeling: '', need: '' } };
+          state.inviteStatus = 'sent'; state.reportMode = 'waiting'; saveState(); renderRecipient();
+        };
+        return;
+    }
+    function renderRecipient() {
+      const area = document.getElementById('recipientContent');
+      const invitation = state.invitation;
+      if (invitation && state.inviteStatus === 'sent' && Date.now() >= invitation.expiresAt) {
+        state.inviteStatus = 'expired'; state.reportMode = 'single'; saveState();
+      }
+      if (!invitation || ['withdrawn', 'expired', 'declined'].includes(state.inviteStatus)) {
+        area.innerHTML = '<article class="card"><h2>这张小纸条暂时不能打开</h2><p>邀请可能已撤回、过期或被拒绝。你的未提交内容不会进入报告，可以请发起者重新邀请。</p></article>';
+        return;
+      }
+      if (state.inviteStatus !== 'sent') {
+        area.innerHTML = '<article class="card"><h2>' + (state.inviteStatus === 'submitted' ? '你的话收到了，谢谢你愿意说说' : '这次普通复盘已停止') + '</h2><p>这里不会展示对方的私密记录。你可以结束这次演示。</p></article>'; return;
+      }
+      const draft = invitation.draft;
+      area.innerHTML = '<article class="card"><p class="eyebrow">对方主动分享给你的</p>' + animalMarkup(invitation.animal) + '<h2>' + escapeHtml(invitation.name) + '</h2><p>' + escapeHtml(invitation.topic) + '</p><p>' + escapeHtml(invitation.message || '想听听你的感受，愿意的话，我们慢慢说。') + '</p><p class="mini-copy">有效至 ' + escapeHtml(new Date(invitation.expiresAt).toLocaleString('zh-CN')) + '。你不需要先认同对方。</p></article><article class="card section-stack"><h2>现在，听你说</h2><p>提交后，这三段话会给发起者用于复盘；草稿不会进入报告。本机原型不验证身份，共用设备不能保证私密。</p>' + [['fact','你记得发生了什么'],['feeling','你从这件事感受到什么'],['need','你在意什么，希望对方理解什么']].map(([key,label]) => '<div class="field"><label for="recipient-' + key + '">' + label + '</label><textarea class="textarea" maxlength="4000" id="recipient-' + key + '">' + escapeHtml(draft[key]) + '</textarea></div>').join('') + '<div class="field"><label for="recipientSafety">先确认一下安全情况</label><select class="input" id="recipientSafety"><option value="">请选择</option><option value="safe">不涉及下列风险</option><option value="risk">涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险</option></select></div><label class="checkline"><input type="checkbox" id="recipientConsent">我已满18岁，了解是模板演示，同意将这些话用于本次复盘</label><p id="recipientError" role="alert"></p><button class="primary" id="submitRecipient" type="button">写好了，交给这次复盘</button><button class="secondary" id="saveRecipient" type="button">先存草稿，稍后再说</button><button class="ghost" id="declineRecipient" type="button">这次先不参与</button></article>';
+      const collect = () => { for (const key of ['fact','feeling','need']) draft[key] = document.getElementById('recipient-' + key).value.trim(); };
+      document.getElementById('saveRecipient').onclick = () => { collect(); saveState(); showToast('草稿留在这台设备上，提交前不会进入报告。'); };
+      document.getElementById('declineRecipient').onclick = () => { state.inviteStatus = 'declined'; state.reportMode = 'single'; invitation.draft = { fact: '', feeling: '', need: '' }; saveState(); area.innerHTML = '<article class="card"><h2>这次先不聊，也没关系</h2><p>已拒绝参与，未提交的补充已清除。</p></article>'; };
+      document.getElementById('recipientSafety').onchange = event => {
+        if (event.target.value !== 'risk') return;
+        collect(); state.inviteStatus = 'blocked'; state.review.risks = ['受邀者主动确认高风险']; state.aiStatus = 'idle'; saveState();
+        area.innerHTML = '<article class="card danger-card"><h2>先照顾好自己的安全</h2><p>普通复盘已停止，不必继续解释或协商。如果正面临危险，请联系当地紧急服务或可信任的人。</p><p>草稿仅在本机，共用设备不能保证私密。</p><button class="secondary" id="keepRecipient">保留本机草稿</button><button class="secondary" id="deleteRecipient">删除我的补充</button><button class="ghost" id="exitRecipient">安全退出此页</button></article>';
+        document.getElementById('keepRecipient').onclick = () => showToast('保留在本机，普通复盘仍已停止。');
+        document.getElementById('deleteRecipient').onclick = () => { if (!window.confirm('删除你的补充？删除后无法恢复。')) return; invitation.draft = { fact: '', feeling: '', need: '' }; saveState(); renderRecipient(); };
+        document.getElementById('exitRecipient').onclick = () => { area.innerHTML = '<article class="card"><h2>已离开填写页面</h2></article>'; };
+      };
+      document.getElementById('submitRecipient').onclick = () => {
+        collect();
+        if (Date.now() >= invitation.expiresAt || state.inviteStatus !== 'sent') { renderRecipient(); return; }
+        if (!draft.fact || !draft.feeling || !draft.need || document.getElementById('recipientSafety').value !== 'safe' || !document.getElementById('recipientConsent').checked) { document.getElementById('recipientError').textContent = '请补齐三段话，再确认安全情况和分享意愿哦。'; return; }
+        state.partner = { ...draft, source: 'partner' }; state.inviteStatus = 'submitted'; state.reportMode = 'single'; saveState(); renderRecipient();
+      };
+    }
+    document.getElementById('leaveRecipient').onclick = () => {
+      recipientMode = false; screenHistory.length = 0;
+      showScreen(state.inviteStatus === 'blocked' ? 'safety' : 'report', { replace: true });
+    };
+    const careMessages = { gentle: '这几天，记得多关心一下我。', listen: '这几天，我想要多一点耐心和倾听。', ask: '今天可以问问我，想要什么样的陪伴。' };
+    function resetCycleCare() {
+      state.cycleCare = { observation: 'skip', last: '', next: '', lead: '3', message: 'gentle', local: false, share: false };
+      document.getElementById('carePreview').innerHTML = '';
+    }
+    function localDateText(date = new Date()) {
+      return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+    }
+    function dateDay(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
+      const parsed = new Date(value + 'T12:00:00Z');
+      return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value ? parsed.getTime() / 86400000 : NaN;
+    }
+    function careAvailability(today = localDateText()) {
+      const care = state.cycleCare;
+      if (state.binding.status !== 'bound') return { shared: false, due: false, text: '还没绑定伴侣。两个人确认后，再决定要不要共享。' };
+      if (!care.local || !care.share || !care.last) return { shared: false, due: false, text: '经期共享与提醒未开启。' };
+      if (!care.next) return { shared: true, due: false, text: '日期已共享；还没填写预计下次日期，暂不安排提醒。' };
+      const remaining = dateDay(care.next) - dateDay(today);
+      if (!Number.isFinite(remaining)) return { shared: true, due: false, text: '请检查预计日期，暂不安排提醒。' };
+      if (remaining < 0) return { shared: true, due: false, text: '预计日期已过去，提醒已暂停。更新这次记录后再安排，不自动推算下一周期。' };
+      if (!state.binding.receivesCare) return { shared: true, due: false, text: '经期日期已共享；对方暂未开启接收提醒。' };
+      return { shared: true, due: remaining <= Number(care.lead), text: remaining <= Number(care.lead) ? '已进入提醒时间。本机可预览提醒，尚未实际发送。' : '已安排提前' + care.lead + '天提醒（本机模拟，未发送）。' };
+    }
+    function renderCompanion() {
+      renderBinding();
+      const care = state.cycleCare;
+      for (const [field,key] of [['careObservation','observation'],['careLast','last'],['careNext','next'],['careLead','lead'],['careMessage','message']]) document.getElementById(field).value = care[key];
+      document.getElementById('careLocal').checked = care.local;
+      document.getElementById('careShare').checked = care.share;
+      document.getElementById('careShare').disabled = state.binding.status !== 'bound';
+      document.getElementById('careLast').max = localDateText();
+      document.getElementById('cycleFields').hidden = !['yes','unsure'].includes(care.observation);
+      document.getElementById('careError').textContent = '';
+      document.getElementById('carePreview').innerHTML = '';
+      document.getElementById('careStatus').textContent = careAvailability().text;
+    }
+    function renderBinding() {
+      const area = document.getElementById('bindingContent');
+      const binding = state.binding;
+      if (binding.status === 'bound') {
+        area.innerHTML = '<article class="card section-stack"><h2>' + escapeHtml(binding.selfName) + ' 和 ' + escapeHtml(binding.partnerName) + '</h2><p>已在本机模拟确认情侣绑定。不会真的关联两个账号。</p><label class="checkline"><input type="checkbox" id="receiveCare" ' + (binding.receivesCare ? 'checked' : '') + '>模拟伴侣选择：愿意接收经期提醒</label><button class="secondary" id="unbindCompanion" type="button">解除绑定</button></article>';
+        document.getElementById('receiveCare').onchange = event => { binding.receivesCare = event.target.checked; saveState(); renderCompanion(); };
+        document.getElementById('unbindCompanion').onclick = () => {
+          if (!window.confirm('解除绑定？经期共享与提醒会立即关闭。自己的记录保留；对方已看过的信息无法收回。')) return;
+          state.binding = { status: 'none', selfName: '', partnerName: '', receivesCare: false }; state.cycleCare.share = false; saveState(); renderCompanion();
+        };
+        return;
+      }
+      if (binding.status === 'pending') {
+        area.innerHTML = '<article class="card section-stack"><h2>等你也点点头</h2><p>' + escapeHtml(binding.selfName) + ' 想与 ' + escapeHtml(binding.partnerName) + ' 绑定为情侣。</p><p class="mini-copy">对方确认演示：请把设备交给对方。这不验证身份，不发送真实邀请。绑定本身不会开启经期共享。</p><label class="checkline"><input type="checkbox" id="bindingConsent">模拟对方确认：我已满18岁，愿意建立情侣绑定</label><p id="bindingError" role="alert"></p><button class="primary" id="acceptBinding" type="button">确认绑定（本机演示）</button><button class="secondary" id="declineBinding" type="button">暂不绑定</button><button class="ghost" id="cancelBinding" type="button">发起者撤回</button></article>';
+        document.getElementById('acceptBinding').onclick = () => { if (!document.getElementById('bindingConsent').checked) { document.getElementById('bindingError').textContent = '需要对方也点头，才算绑定哦。'; return; } binding.status = 'bound'; binding.receivesCare = false; state.cycleCare.share = false; saveState(); renderCompanion(); };
+        for (const id of ['declineBinding','cancelBinding']) document.getElementById(id).onclick = () => { state.binding = { status: 'none', selfName: '', partnerName: '', receivesCare: false }; saveState(); renderCompanion(); };
+        return;
+      }
+      area.innerHTML = '<article class="card section-stack"><h2>我们，把彼此连起来吧</h2><div class="field"><label for="bindingSelf">你的称呼</label><input class="input" id="bindingSelf" maxlength="30"></div><div class="field"><label for="bindingPartner">对方的称呼</label><input class="input" id="bindingPartner" maxlength="30"></div><label class="checkline"><input id="bindingSelfConsent" type="checkbox">我已满18岁，愿意邀请这位伴侣绑定</label><p id="bindingError" role="alert"></p><button class="primary" id="requestBinding" type="button">邀请绑定（本机演示）</button><p class="mini-copy">演示使用称呼识别双方，没有真实账号或跨设备绑定。</p></article>';
+      document.getElementById('requestBinding').onclick = () => {
+        const selfName = document.getElementById('bindingSelf').value.trim(), partnerName = document.getElementById('bindingPartner').value.trim();
+        if (!selfName || !partnerName || !document.getElementById('bindingSelfConsent').checked) { document.getElementById('bindingError').textContent = '先填好两个人的称呼，再确认你的意愿哦。'; return; }
+        state.binding = { status: 'pending', selfName, partnerName, receivesCare: false }; saveState(); renderCompanion();
+      };
+    }
+    document.getElementById('careObservation').onchange = event => { document.getElementById('cycleFields').hidden = !['yes','unsure'].includes(event.target.value); document.getElementById('carePreview').innerHTML = ''; };
+    document.getElementById('saveCare').onclick = () => {
+      const observation = document.getElementById('careObservation').value;
+      const error = document.getElementById('careError');
+      if (!['yes','unsure'].includes(observation)) {
+        if (state.cycleCare.last && !window.confirm('保存这个选择会清除经期记录，并关闭共享与提醒。继续吗？')) return;
+        resetCycleCare(); state.cycleCare.observation = observation; saveState(); renderCompanion(); showToast('好的，先不记录。经期共享与提醒已关闭。'); return;
+      }
+      const care = { observation, last: document.getElementById('careLast').value, next: document.getElementById('careNext').value, lead: document.getElementById('careLead').value, message: document.getElementById('careMessage').value, local: document.getElementById('careLocal').checked, share: document.getElementById('careShare').checked };
+      if (!Number.isFinite(dateDay(care.last)) || care.last > localDateText()) { error.textContent = '请填写已经发生的经期开始日期哦。'; return; }
+      if (care.next && (!Number.isFinite(dateDay(care.next)) || care.next <= care.last || care.next < localDateText())) { error.textContent = '预计下次日期要晚于上次开始日期，且不能早于今天。不确定就留空。'; return; }
+      if (!care.local) { error.textContent = '保存前需要确认本机存储说明。不想保留时，可以选择删除记录。'; return; }
+      if (care.share && state.binding.status !== 'bound') { error.textContent = '先完成双方绑定，再开启共享。'; return; }
+      if (!['0','1','2','3','5','7'].includes(care.lead) || !careMessages[care.message]) { error.textContent = '请重新选择提醒时间和话语。'; return; }
+      state.cycleCare = care; saveState(); renderCompanion(); showToast(care.share ? '保存好了，经期日期会展示给绑定伴侣。' : '存好了，目前只有你自己查看。');
+    };
+    document.getElementById('pauseCare').onclick = () => { state.cycleCare.share = false; saveState(); renderCompanion(); showToast('经期共享和后续提醒已关闭。'); };
+    document.getElementById('clearCare').onclick = () => { if (!window.confirm('彻底删除本机经期日期、观察回答和提醒设置？已被对方看过的信息无法收回。')) return; resetCycleCare(); saveState(); renderCompanion(); showToast('身体记录与提醒已删除。'); };
+    document.getElementById('previewCare').onclick = () => {
+      const access = careAvailability();
+      const area = document.getElementById('carePreview');
+      if (!access.shared) { area.textContent = access.text; return; }
+      const care = state.cycleCare;
+      area.innerHTML = '<div class="notice"><h3>伴侣视角 · 本机预览</h3><p>' + escapeHtml(state.binding.selfName) + ' 分享的经期记录</p><p>最近一次开始：' + escapeHtml(care.last) + '</p><p>预计下一次：' + escapeHtml(care.next || '还不确定') + '</p><p>想说的话：' + escapeHtml(careMessages[care.message]) + '</p><p>' + escapeHtml(access.text) + '</p></div>';
+      if (care.next && state.binding.receivesCare && dateDay(care.next) >= dateDay(localDateText())) {
+        const preview = document.createElement('button'); preview.type = 'button'; preview.className = 'secondary'; preview.textContent = '模拟到期提醒（不发送）';
+        preview.onclick = () => {
+          if (!careAvailability().shared || !state.binding.receivesCare) { area.textContent = '共享或接收提醒已关闭。'; return; }
+          const notice = document.createElement('p'); notice.textContent = '模拟提醒 · ' + state.binding.selfName + '预计于' + care.next + '迎来经期：' + careMessages[care.message]; area.replaceChildren(notice);
+        }; area.append(preview);
+      }
+    };
+    function renderMine() {
+      const title = state.review.title || '暂无已命名事件';
+      document.getElementById('historyList').innerHTML = `<div class="list-item"><strong>${escapeHtml(title)}</strong><span>${state.reportMode === 'empty' ? '草稿或尚未生成报告' : '已生成演示报告'}</span></div><div class="list-item"><strong>当前关系线索</strong><span>${state.needs.length ? state.needs.join('、') : '等待探索输入'}</span></div>`;
+    }
+    goButtons.forEach(button => button.addEventListener('click', () => { if (!button.disabled) showScreen(button.dataset.go); }));
+    appBack.addEventListener('click', () => showScreen(screenHistory.pop() || 'home', { replace: true }));
+    document.getElementById('ageCheck').addEventListener('change', event => { document.getElementById('startBtn').disabled = !event.target.checked; });
+    document.getElementById('startBtn').addEventListener('click', () => { state.accepted = true; localStorage.setItem('relationship-v2-consent', 'true'); showScreen('home', { replace: true }); });
+    document.getElementById('prevQuestion').addEventListener('click', () => { state.quizIndex = Math.max(0, state.quizIndex - 1); renderQuiz(); });
+    document.getElementById('nextQuestion').addEventListener('click', () => {
+      if (!canLeaveQuizStep()) { document.getElementById('quizError').classList.add('show'); return; }
+      if (state.quizIndex === quizQuestions.length - 1) { saveState(); showScreen('self-result'); }
+      else { state.quizIndex += 1; saveState(); renderQuiz(); }
+    });
+    document.getElementById('reviewBack').addEventListener('click', () => { saveReviewStep(); state.reviewStep = Math.max(0, state.reviewStep - 1); saveState(); renderReviewStep(); });
+    document.getElementById('reviewNext').addEventListener('click', () => {
+      if (!saveReviewStep()) { document.getElementById('reviewError').classList.add('show'); return; }
+      if (state.reviewStep === 4 && state.review.risks.some(item => item !== '以上都没有')) {
+        saveState();
+        document.getElementById('riskSummary').textContent = `你选择了：${state.review.risks.join('、')}。普通复盘已停止。`;
+        showScreen('safety');
+        return;
+      }
+      state.reviewStep = Math.min(reviewSteps.length - 1, state.reviewStep + 1);
+      saveState();
+      renderReviewStep();
+    });
+    document.getElementById('saveDraftExit').addEventListener('click', () => { saveReviewStep(); state.draftSaved = true; saveState(); renderHomeState(); showToast('草稿存好了，想说的时候再回来。'); showScreen('home'); });
+    function openDeleteModal() { deleteModal.classList.add('open'); document.getElementById('cancelDelete').focus(); }
     document.getElementById('openDelete').addEventListener('click', openDeleteModal);
-    document.getElementById('deleteExit').addEventListener('click', openDeleteModal);
-    document.getElementById('cancelDelete').addEventListener('click', () => modal.classList.remove('open'));
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') modal.classList.remove('open');
-    });
+    document.getElementById('deleteFromSafety').addEventListener('click', openDeleteModal);
+    document.getElementById('cancelDelete').addEventListener('click', () => deleteModal.classList.remove('open'));
     document.getElementById('confirmDelete').addEventListener('click', () => {
-      modal.classList.remove('open');
-      screenHistory.length = 0;
-      showScreen('welcome', { replace: true });
+      deleteModal.classList.remove('open');
+      localStorage.removeItem(storageKey);
+      Object.assign(state.review, { title: '', date: '', fact: '', interpretation: '', feeling: '', need: '', understand: '', adjust: '', next: '', risks: [] });
+      state.partner = { fact: '', feeling: '', need: '', source: 'retold' };
+      state.reviewStep = 0;
+      state.draftSaved = false;
+      state.reportMode = 'empty';
+      state.inviteStatus = 'none';
+      state.invitation = null;
+      resetCycleCare();
+      state.binding = { status: 'none', selfName: '', partnerName: '', receivesCare: false };
+      showToast('彻底删除完成。');
+      renderHomeState();
+      showScreen('home', { replace: true });
     });
-    syncAppChrome('home');
-    updateQuiz();
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') deleteModal.classList.remove('open'); });
+    document.getElementById('safeExit').addEventListener('click', () => { showToast('已安全退出到首页。'); showScreen('home', { replace: true }); });
+    document.getElementById('privateSave').addEventListener('click', () => { state.draftSaved = true; saveState(); showToast('已保存在当前浏览器，不继续普通复盘。共用设备上的记录不保证私密。'); });
+    document.getElementById('exportData').addEventListener('click', () => showToast('导出目前只是演示，还没有生成可下载的文件。'));
+    document.getElementById('withdrawInviteFromMine').addEventListener('click', () => setInviteState('withdrawn'));
+    document.getElementById('expireInviteFromMine').addEventListener('click', () => setInviteState('expired'));
+    loadState();
+    if (!['dog', 'cat', 'rabbit', 'bear'].includes(state.profile.animal)) state.profile.animal = 'dog';
+    if (state.reportMode === 'joint') state.reportMode = 'single';
+    if (state.aiStatus === 'loading') state.aiStatus = 'failed';
+    renderProfileChoices();
+    renderHomeState();
+    renderQuiz();
+    renderReviewStep();
+    renderSelfResult();
+    renderMine();
+    const acceptedByQuery = new URLSearchParams(location.search).get('state') === 'agreed';
+    if (state.accepted || acceptedByQuery) showScreen('home', { replace: true });
+    else showScreen('welcome', { replace: true });
   </script>
 </body>
 </html>
