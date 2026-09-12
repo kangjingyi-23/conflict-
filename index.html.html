@@ -445,9 +445,9 @@
               <div class="avatar" aria-hidden="true">慢</div>
             </div>
             <div class="section-stack">
-              <article class="card" data-od-id="welcome-profile"><div class="profile-picker"></div><p class="mini-copy">性别不是性格说明书哦，不想选也没关系。小动物挑喜欢的就好，之后随时可以换。</p></article>
+              <article class="card" data-od-id="welcome-profile"><div class="profile-picker"></div><p class="mini-copy">每个人都有自己的性格和相处方式。性别可以跳过，小动物挑喜欢的就好，之后随时可以换。</p></article>
               <article class="card soft-card"><h2>慢慢说，陪你理一理</h2><p>你在意什么？哪句话让你难过了？从这些小地方开始，慢慢理清发生的事、心里的感受，还有想说却没说出口的话。</p></article>
-              <article class="card"><h2>不贴标签，也不猜心</h2><p>一次争执不能定义你。慢慢说不会给你下诊断、算谁错得多，也不能替对方说出心里的答案。</p></article>
+              <article class="card"><h2>陪你认识相处中的自己</h2><p>慢慢说陪你整理经历、看见感受，再一起找找可以尝试的小行动。对方心里的想法，留给对方亲口说。</p></article>
               <article class="card danger-card"><h2>你的安全，要放在前面</h2><p>如果涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险，请先停下复盘。慢慢说不能替代紧急或专业支持。</p></article>
               <label class="notice checkline"><input type="checkbox" id="ageCheck" /><span><strong>我已满 18 岁</strong>，并同意隐私与 AI 使用说明。</span></label>
               <div class="btn-row single"><button class="primary" id="startBtn" type="button" disabled>了解了，我们开始吧</button></div>
@@ -459,7 +459,7 @@
               <div>
                 <p class="eyebrow">慢慢说</p>
                 <h1 class="mini-title">今天，想从哪里说起？</h1>
-                <p class="mini-copy">想多懂自己一点，还是有件事想理一理？选一个就好，不用着急。</p>
+                <p class="mini-copy">想多懂自己一点，还是有件事想理一理？选一个，按自己的节奏来。</p>
               </div>
             </div>
             <div class="entry-grid">
@@ -496,7 +496,7 @@
 
           <section class="screen" id="self-result" data-od-id="screen-self-result">
             <div class="mini-header">
-              <div><p class="eyebrow">当前关系线索</p><h1 class="mini-title">这是此刻的你，不是定义</h1><p class="mini-copy">先把你说过的心里话放在一起看看。不贴标签，也不急着下结论，以后还可以慢慢补充。</p></div>
+              <div><p class="eyebrow">当前关系线索</p><h1 class="mini-title">看看此刻的自己</h1><p class="mini-copy">把刚才的心里话放在一起，看看哪些地方贴近你。以后有了新的感受，再慢慢补充。</p></div>
               <button class="avatar-btn" type="button" data-go="mine" aria-label="进入我的"><span class="puppy-avatar" aria-hidden="true"><span class="puppy-head"><i class="puppy-eyes"></i><i class="puppy-nose"></i></span></span><span class="mine-label">我</span></button>
             </div>
             <article class="card section-stack" id="relationshipDimensions" data-od-id="relationship-dimensions"></article>
@@ -505,7 +505,7 @@
 
           <section class="screen" id="create-review" data-od-id="screen-create-review">
             <div class="mini-header">
-              <div><p class="eyebrow">冲突复盘</p><h1 class="mini-title">想说什么，我在这里</h1><p class="mini-copy">不用先整理好。打字或用语音说一段，时间记不清也没关系。</p></div>
+              <div><p class="eyebrow">冲突复盘</p><h1 class="mini-title">想说什么，我在这里</h1><p class="mini-copy">从最想说的那一句开始吧。打字、语音都可以，时间和细节稍后再补。</p></div>
             </div>
             <div class="stepper" id="reviewStepper" data-od-id="review-stepper"></div>
             <article class="card" id="reviewStepCard" data-od-id="review-step-card"></article>
@@ -628,14 +628,14 @@
       { id: 'communication_priority', label: '冲突时的沟通偏好', text: '闹别扭的时候，你更希望对方先怎么做？', choices: ['先听懂我的心情', '更想先被理解', '都需要，看当时的情况', '更想先聊聊办法', '先一起想想办法'] }
     ];
     const quizQuestions = [
-      { id: 'late_reply', type: '当前问题', text: '对方没有及时回应时，我通常会怎么反应？', help: '依恋理论关心的是：不安时，我们怎样寻找回应和安心。想想最近的自己就好，一次回答不会决定你是哪种人。', choices: ['反复确认关系是否安全', '先等一等，但心里会紧张', '能说明我需要一个回复时间', '会退开，不太想再表达'] },
+      { id: 'late_reply', type: '当前问题', text: '对方没有及时回应时，我通常会怎么反应？', help: '依恋理论关心的是：不安时，我们怎样寻找回应和安心。想想最近的自己就好，感受有了变化，随时可以回来改。', choices: ['反复确认关系是否安全', '先等一等，但心里会紧张', '能说明我需要一个回复时间', '会退开，不太想再表达'] },
       { id: 'space', type: '当前问题', text: '当我需要空间时，我通常会怎么说？', help: '想靠近，也想有自己的空间，这两种需要可以一起存在。需要空间本身不等于回避依恋哦。', choices: ['直接消失或冷处理', '说不清，只希望对方懂', '说明我需要空间和回来时间', '担心对方误会，所以不敢说'] },
-      { id: 'conflict_heat', type: '当前问题', text: '争执变激烈时，我比较容易做什么？', help: '不安时，有人想赶快靠近，有人想先退开。先看看自己怎么保护自己，不急着给谁贴标签。', choices: ['继续追问直到有答案', '沉默或结束对话', '先暂停，再约时间回来谈', '开始证明自己没有错'] },
+      { id: 'conflict_heat', type: '当前问题', text: '争执变激烈时，我比较容易做什么？', help: '不安时，有人想赶快靠近，有人想先退开。看看自己习惯怎样保护自己，又希望得到怎样的回应。', choices: ['继续追问直到有答案', '沉默或结束对话', '先暂停，再约时间回来谈', '开始证明自己没有错'] },
       { id: 'fact_interpretation', type: '当前问题', text: '复盘一件事时，我能否区分事实和解释？', help: '例如“对方 2 小时没回”是事实，“对方不在乎我”是解释。', choices: ['经常混在一起', '事后能分开一点', '多数时候能分开说', '需要提示才做得到'] },
       { id: 'repair_request', type: '当前问题', text: '冲突后，我能否提出一个具体下一步？', help: '例如“明晚 20 分钟只讨论回复期待”。', choices: ['很难，只想对方先改变', '能提出大方向', '能提出时间和行动', '能提出也能听对方版本'] },
       { id: 'needs', type: '关系需要', text: '当前最想被看见的关系需要是什么？', help: '先挑最在意的三项以内吧。心情变了，也可以回来改。', choices: ['被回应', '被尊重', '安全感', '空间', '稳定承诺', '被理解', '公平分担'] }
     ];
-    quizQuestions.splice(5, 0, ...dimensionQuestions.map(question => ({ ...question, type: '此刻的关系偏好', help: question.id === 'communication_priority' ? '想被安慰不代表不理性，想找办法也不代表没感情。先选此刻更需要的那个吧。' : '按最近的感受选就好。这是自编的小自评，不是心理测量，没有标准答案。' })));
+    quizQuestions.splice(5, 0, ...dimensionQuestions.map(question => ({ ...question, type: '此刻的关系偏好', help: question.id === 'communication_priority' ? '被理解和找办法，都是被关心的方式。此刻，你更想从哪一个开始？' : '按最近的感受，选最贴近自己的那个吧。这份自编小自评用来记录偏好，仅供自我观察。' })));
     const reviewSteps = ['先说说', '确认安全', '一起理一理'];
     const state = {
       accepted: localStorage.getItem('relationship-v2-consent') === 'true',
@@ -682,7 +682,7 @@
     function renderProfileChoices() {
       const genders = { male: '男生', female: '女生', other: '其他', private: '暂不透露' };
       document.querySelectorAll('.profile-picker').forEach(picker => {
-        picker.innerHTML = `<fieldset><legend>你的性别是？不想说也没关系</legend><div class="profile-options">${Object.entries(genders).map(([value, label]) => `<button class="profile-choice" type="button" data-gender="${value}" aria-pressed="${state.profile.gender === value}">${label}</button>`).join('')}</div></fieldset><fieldset><legend>今天想让谁陪着你？</legend><div class="animal-options">${Object.entries(animalNames).map(([value, label]) => `<button class="profile-choice" type="button" data-animal-choice="${value}" aria-label="选择${label}头像" aria-pressed="${state.profile.animal === value}">${animalMarkup(value)}<span>${label}</span></button>`).join('')}</div></fieldset>`;
+        picker.innerHTML = `<fieldset><legend>你的性别是？也可以先跳过</legend><div class="profile-options">${Object.entries(genders).map(([value, label]) => `<button class="profile-choice" type="button" data-gender="${value}" aria-pressed="${state.profile.gender === value}">${label}</button>`).join('')}</div></fieldset><fieldset><legend>今天想让谁陪着你？</legend><div class="animal-options">${Object.entries(animalNames).map(([value, label]) => `<button class="profile-choice" type="button" data-animal-choice="${value}" aria-label="选择${label}头像" aria-pressed="${state.profile.animal === value}">${animalMarkup(value)}<span>${label}</span></button>`).join('')}</div></fieldset>`;
         picker.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
           const key = button.dataset.gender ? 'gender' : 'animal';
           state.profile[key] = button.dataset.gender || button.dataset.animalChoice;
@@ -819,12 +819,12 @@
       }).join(' ');
       const complete = values => values.slice(0, 3).every(value => value !== null);
       const graph = complete(own) || complete(other) ? '<svg class="dimension-chart" viewBox="0 0 320 235" role="img" aria-label="三项自评雷达图。实线是当前查看者，虚线是已分享的伴侣，具体回答见下方文字。">' + [1,2,3,4,5].map(value => '<polygon class="dimension-grid" points="' + points([value,value,value]) + '"/>').join('') + (complete(other) ? '<polygon class="dimension-partner" points="' + points(other) + '"/>' : '') + (complete(own) ? '<polygon class="dimension-self" points="' + points(own) + '"/>' : '') + '<text x="160" y="16" text-anchor="middle">亲近需要</text><text x="248" y="205" text-anchor="middle">空间需要</text><text x="72" y="205" text-anchor="middle">再沟通意愿</text></svg>' : '<p class="notice">先回答下面的几个小问题吧，图会跟着你的回答慢慢长出来。</p>';
-      area.innerHTML = '<div><p class="eyebrow">我们相处的小线索</p><h2>先懂心情，还是先想办法？</h2></div><p class="mini-copy">不是感性和理性的分组，只是此刻希望被怎样对待。亲近与空间也可以同时很重要哦。</p>' +
+      area.innerHTML = '<div><p class="eyebrow">我们相处的小线索</p><h2>先懂心情，还是先想办法？</h2></div><p class="mini-copy">此刻，你希望对方怎样接住你的心情？亲近与空间也可以同时很重要哦。</p>' +
         (bound ? '<div class="btn-row"><button class="secondary" type="button" data-dimension-view="self" aria-pressed="' + !partnerView + '">我的视角</button><button class="secondary" type="button" data-dimension-view="partner" aria-pressed="' + partnerView + '">伴侣视角 · 演示</button></div><p class="mini-copy">正在查看：' + escapeHtml(partnerView ? state.binding.partnerName : state.binding.selfName) + '。本机切换不验证身份，也不会连接真实账号。</p>' : '<p class="mini-copy">现在先看看自己。双方绑定并确认分享后，就能互相看看。</p>') +
         graph + '<p class="mini-copy">实线／实心点：当前查看者 · 虚线／空心圈：伴侣。图越大不代表越好；每项只来自一道自评题，不是经过验证的量表。</p>' +
         dimensionQuestions.map((question, index) => '<div class="dimension-row"><h3>' + question.label + '</h3>' + (index === 3 ? '<div class="dimension-track" aria-hidden="true">' + (own[index] ? '<span class="dimension-marker" style="left:' + (own[index] - 1) * 25 + '%"></span>' : '') + (other[index] ? '<span class="dimension-marker partner" style="left:' + (other[index] - 1) * 25 + '%"></span>' : '') + '</div><div class="dimension-ends"><span>先被理解</span><span>先想办法</span></div>' : '') + '<p>自己：' + (own[index] ? question.choices[own[index] - 1] : '还没回答') + '</p>' + (bound ? '<p class="mini-copy">伴侣：' + (other[index] ? question.choices[other[index] - 1] : access.other ? '还没回答' : '尚未分享') + '</p>' : '') + '<details><summary>这条线索从哪里来？</summary><p class="mini-copy">' + question.text + ' 图中位置对应五个选项的顺序，不代表准确率或能力分数。</p></details></div>').join('') +
         (own[3] && other[3] ? '<p class="notice">' + ((own[3] < 3 && other[3] > 3) || (own[3] > 3 && other[3] < 3) ? '你们可能都在努力，只是开场方式不一样。下次试着问问：“想让我先听你说，还是一起想办法？”' : '这次的选择有相近的地方，也别忘了问一句：“今天，你更需要哪一种？”') + '</p>' : '') +
-        '<details class="partner-details"><summary>' + (partnerView ? '由伴侣填写或修改自己的回答' : '补充或修改我的回答') + '</summary><form class="dimension-form" id="dimensionForm">' + dimensionQuestions.map(question => '<fieldset><legend>' + question.text + '</legend><label class="sr-only" for="dimension-' + question.id + '">' + question.label + '</label><select id="dimension-' + question.id + '" required><option value="">选一个更像此刻的答案</option>' + question.choices.map((choice, index) => '<option value="' + index + '" ' + (access.own[question.id] === choice ? 'selected' : '') + '>' + choice + '</option>').join('') + '</select></fieldset>').join('') + '<button class="secondary" type="submit">保存这次的回答</button><p class="mini-copy">' + (partnerView ? '请把设备交给伴侣本人填写，不用猜对方的答案。' : '你来确认自己的变化，不会由复盘自动改分。') + '</p></form></details>' +
+        '<details class="partner-details"><summary>' + (partnerView ? '由伴侣填写或修改自己的回答' : '补充或修改我的回答') + '</summary><form class="dimension-form" id="dimensionForm">' + dimensionQuestions.map(question => '<fieldset><legend>' + question.text + '</legend><label class="sr-only" for="dimension-' + question.id + '">' + question.label + '</label><select id="dimension-' + question.id + '" required><option value="">选一个更像此刻的答案</option>' + question.choices.map((choice, index) => '<option value="' + index + '" ' + (access.own[question.id] === choice ? 'selected' : '') + '>' + choice + '</option>').join('') + '</select></fieldset>').join('') + '<button class="secondary" type="submit">保存这次的回答</button><p class="mini-copy">' + (partnerView ? '把设备交给伴侣，让对方说说自己的感受吧。' : '复盘带来新线索后，由你确认或重新回答，再更新这里。') + '</p></form></details>' +
         (bound ? '<label class="checkline"><input type="checkbox" id="shareDimensions" ' + (sharing[dimensionViewer] ? 'checked' : '') + '>我愿意让绑定伴侣查看这四项自评与对应回答</label><p class="mini-copy">开启后，修改的回答也会同步展示。关闭或解绑即停止互看；已经看到的信息无法收回。复盘原文和其他探索回答不会随之公开。</p>' : '<button class="secondary" type="button" id="dimensionBind">去我的，和伴侣绑定</button>') +
         '<p class="mini-copy" role="status" id="dimensionSaveStatus"></p><p class="mini-copy">以后复盘带来新线索，可以回来重新选一选。目前没有接入真实 AI，不会自动推测你或伴侣的维度。</p>';
       area.querySelectorAll('[data-dimension-view]').forEach(button => button.onclick = () => { dimensionViewer = button.dataset.dimensionView; renderDimensions(); });
@@ -851,7 +851,7 @@
       const needs = state.needs.length ? state.needs.join('、') : '暂未选择';
       const sourceCount = Object.keys(answers).length + state.needs.length;
       document.getElementById('selfResultContent').innerHTML = `
-        <article class="card" data-od-id="attachment-reflection"><h2>不安的时候，你想怎样被接住？</h2><p>依恋理论提供了一个理解亲密关系的角度：我们会留意对方是否回应，也会对靠近和依靠有不同感受。这不是感性与理性的区别，更不是谁比较好。</p><p>看看刚才的你：等待回复时，你选了「${escapeHtml(answers.late_reply || '还没回答')}」；需要空间时，你选了「${escapeHtml(answers.space || '还没回答')}」。这只是你对当下的描述，不会据此判定依恋类型。</p><p class="mini-copy">这里的亲近、空间、再沟通和沟通偏好是自编自评，不是依恋量表，也不能换算成依恋焦虑或回避分数。新的复盘线索仍由你确认后再更新。</p><details><summary>想了解一点理论依据</summary><p class="mini-copy">参考：R. Chris Fraley《成人依恋理论与研究概览》。本页借用理论帮助自我观察，未使用标准化依恋测验。</p></details></article><article class="card soft-card"><h2>现在，你更在意这些</h2><p>${needs}</p></article>
+        <article class="card" data-od-id="attachment-reflection"><h2>不安的时候，你想怎样被接住？</h2><p>依恋理论提供了一个理解亲密关系的角度：我们会留意对方是否回应，也会对靠近和依靠有不同感受。每个人寻找安心的方式各有不同，也会随着情境变化。</p><p>看看刚才的你：等待回复时，你选了「${escapeHtml(answers.late_reply || '还没回答')}」；需要空间时，你选了「${escapeHtml(answers.space || '还没回答')}」。这些回答记下了你此刻的感受，可以随着新的经历继续补充。</p><p class="mini-copy">这里的亲近、空间、再沟通和沟通偏好是自编自评，不是依恋量表，也不能换算成依恋焦虑或回避分数。新的复盘线索仍由你确认后再更新。</p><details><summary>想了解一点理论依据</summary><p class="mini-copy">参考：R. Chris Fraley《成人依恋理论与研究概览》。本页借用理论帮助自我观察，未使用标准化依恋测验。</p></details></article><article class="card soft-card"><h2>现在，你更在意这些</h2><p>${needs}</p></article>
         <article class="card"><h2>哪些时刻，心里会一紧</h2><p>等待回复、计划有变、想独处却不好开口……这些时刻，哪些让你有共鸣？先留意就好，不代表你一定会这样。</p></article>
         <article class="card"><h2>争执时，你说自己会这样</h2><p>${answers.conflict_heat || '尚未回答冲突升温相关问题'}。下次可以留意：这样做以后，你们更靠近了，还是更难说下去了？</p></article>
         <article class="card"><h2>可以先试试这一小步</h2><p>试着说：“刚才发生了……我有点……因为我在意……我们能不能……”不用一次就说得很顺。</p></article>
@@ -1007,7 +1007,7 @@
       if (state.inviteStatus === 'submitted' && state.aiStatus === 'ready') return '<article class="card soft-card"><h2>对方也留下了自己的话</h2><p>本机演示：补充已加入“分歧说法”。两种说法仍分别保留，不会自动变成共同事实，也不代表验证了填写者身份。</p></article>';
       if (state.reportMode === 'empty') return `<article class="card"><h2>想从哪件事说起？</h2><p>还没写好的话，可以先留在草稿里。等你准备好了，再来理一理。</p><div class="btn-row single"><button class="primary" type="button" data-go="create-review">开始复盘</button></div></article>`;
       if (state.aiStatus === 'loading') return `<article class="card soft-card"><h2>正在把你的话理一理</h2><p>稍等一下，正在整理你写下的经历和感受。这是本地模板演示，不会调用真实 AI。</p><div class="loader" aria-hidden="true"></div></article>`;
-      if (state.aiStatus === 'failed') return `<article class="card danger-card"><h2>这次没整理好，再试一次？</h2><p>这是生成失败的演示。你写下的话还在，不用重新写。</p><button class="primary" id="retryGenerate" type="button">重试生成</button></article>`;
+      if (state.aiStatus === 'failed') return `<article class="card danger-card"><h2>这次没整理好，再试一次？</h2><p>这是生成失败的演示。你写下的话都保留着，可以直接重试。</p><button class="primary" id="retryGenerate" type="button">重试生成</button></article>`;
       if (state.aiStatus === 'invalid') return `<article class="card danger-card"><h2>这份整理还不完整</h2><p>这次演示的结果缺了内容，先不把它当成完整复盘。你写下的话还在，可以重试。</p><button class="primary" id="retryGenerate" type="button">重试生成</button></article>`;
       if (state.reportMode === 'waiting') return `<article class="card soft-card"><div class="row"><h2>邀请已发送</h2><span class="meta">48h 有效</span></div><p>对方未提交前看不到你的完整陈述。</p><div class="btn-row"><button class="secondary" id="withdrawInvite" type="button">撤回邀请</button><button class="secondary" id="showSingle" type="button">先查看单方结果</button></div><div class="btn-row"><button class="ghost" id="simulatePartner" type="button">填写对方视角</button><button class="ghost" id="declineInvite" type="button">伴侣拒绝参与</button></div><div class="btn-row single"><button class="ghost" id="expireInvite" type="button">邀请过期</button></div></article>`;
       if (['withdrawn','expired','declined'].includes(state.inviteStatus)) {
@@ -1022,10 +1022,10 @@
       const joint = false;
       const partnerText = hasPartnerInput() ? `${state.partner.source === 'partner' ? '标注为对方本人填写（本机原型不验证身份）' : '由我转述，尚需对方确认'}：<br>事件说法：${escapeHtml(state.partner.fact) || '未补充'}<br>表达的感受：${escapeHtml(state.partner.feeling) || '未补充'}<br>在意的需要：${escapeHtml(state.partner.need) || '未补充'}<br>两段叙述不自动视为一致，不能据此确认共同事实。` : '尚未补充对方视角，不推断对方的感受和需要。';
       return `
-        <section class="report-panel active" data-panel="consensus"><article class="card"><h2>先说说，这份整理怎么看</h2><p>这里用到的是你写下的经历、想法、感受、需要和下一步。${joint ? '双方陈述已分别提交。' : '以我的视角为主；补充的来源单独标注，内容均未核实。当前为模板演示，不是真实 AI 分析。'}</p></article><article class="card"><h2>回头看看，发生了什么</h2><p>${r.title || '这次想说的事'}：${r.fact || '还没有留下文字'}。先不急着分对错。</p></article><article class="card"><h2>${joint ? '双方一致的事实' : '你留下的原话（未经核实）'}</h2><p>${r.fact || '暂无'}。</p></article></section>
+        <section class="report-panel active" data-panel="consensus"><article class="card"><h2>先说说，这份整理怎么看</h2><p>这里用到的是你写下的经历、想法、感受、需要和下一步。${joint ? '双方陈述已分别提交。' : '以我的视角为主；补充的来源单独标注，内容均未核实。当前为模板演示，不是真实 AI 分析。'}</p></article><article class="card"><h2>回头看看，发生了什么</h2><p>${r.title || '这次想说的事'}：${r.fact || '还没有留下文字'}。先听听这件事对你的影响。</p></article><article class="card"><h2>${joint ? '双方一致的事实' : '你留下的原话（未经核实）'}</h2><p>${r.fact || '暂无'}。</p></article></section>
         <section class="report-panel" data-panel="difference"><article class="card"><h2>我的解释</h2><p>${r.interpretation || '暂无'}。这是当时的理解，不一定是事情的全部，还可以再确认。</p></article><article class="card"><h2>对方的视角与未确认内容</h2><p>${partnerText}</p></article><article class="card"><h2>发生的事，和心里的猜想</h2><p>“发生了什么”和“我觉得这意味着什么”，可以先分开放。你的感受值得被听见，猜想也还需要确认。</p></article></section>
         <section class="report-panel" data-panel="loop"><article class="card"><h2>你说过的感受，和在意的事</h2><p>${r.feeling || '暂无感受'}；在意的需要：${r.need || '暂无需要'}。</p></article><article class="card"><h2>可能的互动循环</h2><p>现在还不能确定你们总是怎么走进争执的。可以回想：你说出感受后，对话怎么变了？哪一刻更难受，哪一刻松了一口气？</p></article><article class="card"><h2>什么让话更难说，什么能缓一缓</h2><p>可能导致升级：连续追问、把解释当事实。可能有助缓和：约定暂停时长、先复述事实、提出一个具体请求。</p></article></section>
-        <section class="report-panel" data-panel="repair"><article class="card"><h2>我愿意试着调整的部分</h2><p>我愿意调整：${r.adjust || "尚未填写"}。这是我选择的行动，不代表我需要为对方的行为负责。</p></article><article class="card"><h2>挑一个做得到的小行动</h2><div class="state-strip" id="repairList"></div><div class="btn-row"><button class="secondary" id="saveActions" type="button">保存行动</button><button class="secondary" id="editActions" type="button">修改行动</button></div></article><article class="card"><h2>想开口时，可以这样说</h2><p>${r.feeling && r.need && r.next ? `表达草稿：我感到${r.feeling}，因为我在意${r.need}。接下来，能否试试${r.next}？` : '你还没单独写出感受、需要或下一步，我们先不替你补。想开口时，可以从“我想说说这件事对我的影响”开始。'}</p></article><article class="card"><h2>这些话，有贴近你的感受吗？</h2><p class="mini-copy">有帮到你吗？读起来公平吗？哪里没说对，也可以告诉我们，不会改动你原本的记录。</p><div class="btn-row"><button class="secondary feedback-btn" type="button" data-feedback="有帮助">有帮助</button><button class="secondary feedback-btn" type="button" data-feedback="基本公平">基本公平</button></div><div class="field"><label for="feedbackText">哪里没说到你心里？</label><textarea class="textarea" id="feedbackText">${escapeHtml(state.feedback)}</textarea></div></article></section>
+        <section class="report-panel" data-panel="repair"><article class="card"><h2>我愿意试着调整的部分</h2><p>我愿意调整：${r.adjust || "尚未填写"}。这是我选择的行动，不代表我需要为对方的行为负责。</p></article><article class="card"><h2>挑一个做得到的小行动</h2><div class="state-strip" id="repairList"></div><div class="btn-row"><button class="secondary" id="saveActions" type="button">保存行动</button><button class="secondary" id="editActions" type="button">修改行动</button></div></article><article class="card"><h2>想开口时，可以这样说</h2><p>${r.feeling && r.need && r.next ? `表达草稿：我感到${r.feeling}，因为我在意${r.need}。接下来，能否试试${r.next}？` : '你还没单独写出感受、需要或下一步，我们先不替你补。想开口时，可以从“我想说说这件事对我的影响”开始。'}</p></article><article class="card"><h2>这些话，有贴近你的感受吗？</h2><p class="mini-copy">有帮到你吗？读起来公平吗？哪里没说对，也可以告诉我们，不会改动你原本的记录。</p><div class="btn-row"><button class="secondary feedback-btn" type="button" data-feedback="有帮助">有帮助</button><button class="secondary feedback-btn" type="button" data-feedback="基本公平">基本公平</button></div><div class="field"><label for="feedbackText">哪些地方想再说说？</label><textarea class="textarea" id="feedbackText">${escapeHtml(state.feedback)}</textarea></div></article></section>
       `;
     }
     function wireReportControls() {
@@ -1115,7 +1115,7 @@
       area.innerHTML = '<article class="card"><p class="eyebrow">对方主动分享给你的</p>' + animalMarkup(invitation.animal) + '<h2>' + escapeHtml(invitation.name) + '</h2><p>' + escapeHtml(invitation.topic) + '</p><p>' + escapeHtml(invitation.message || '想听听你的感受，愿意的话，我们慢慢说。') + '</p><p class="mini-copy">有效至 ' + escapeHtml(new Date(invitation.expiresAt).toLocaleString('zh-CN')) + '。你不需要先认同对方。</p></article><article class="card section-stack"><h2>现在，听你说</h2><p>提交后，这三段话会给发起者用于复盘；草稿不会进入报告。本机原型不验证身份，共用设备不能保证私密。</p>' + [['fact','你记得发生了什么'],['feeling','你从这件事感受到什么'],['need','你在意什么，希望对方理解什么']].map(([key,label]) => '<div class="field"><label for="recipient-' + key + '">' + label + '</label><textarea class="textarea" maxlength="4000" id="recipient-' + key + '">' + escapeHtml(draft[key]) + '</textarea></div>').join('') + '<div class="field"><label for="recipientSafety">先确认一下安全情况</label><select class="input" id="recipientSafety"><option value="">请选择</option><option value="safe">不涉及下列风险</option><option value="risk">涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险</option></select></div><label class="checkline"><input type="checkbox" id="recipientConsent">我已满18岁，了解是模板演示，同意将这些话用于本次复盘</label><p id="recipientError" role="alert"></p><button class="primary" id="submitRecipient" type="button">写好了，交给这次复盘</button><button class="secondary" id="saveRecipient" type="button">先存草稿，稍后再说</button><button class="ghost" id="declineRecipient" type="button">这次先不参与</button></article>';
       const collect = () => { for (const key of ['fact','feeling','need']) draft[key] = document.getElementById('recipient-' + key).value.trim(); };
       document.getElementById('saveRecipient').onclick = () => { collect(); saveState(); showToast('草稿留在这台设备上，提交前不会进入报告。'); };
-      document.getElementById('declineRecipient').onclick = () => { state.inviteStatus = 'declined'; state.reportMode = 'single'; invitation.draft = { fact: '', feeling: '', need: '' }; saveState(); area.innerHTML = '<article class="card"><h2>这次先不聊，也没关系</h2><p>已拒绝参与，未提交的补充已清除。</p></article>'; };
+      document.getElementById('declineRecipient').onclick = () => { state.inviteStatus = 'declined'; state.reportMode = 'single'; invitation.draft = { fact: '', feeling: '', need: '' }; saveState(); area.innerHTML = '<article class="card"><h2>等你想聊的时候再说</h2><p>已拒绝参与，未提交的补充已清除。</p></article>'; };
       document.getElementById('recipientSafety').onchange = event => {
         if (event.target.value !== 'risk') return;
         collect(); state.inviteStatus = 'blocked'; state.review.risks = ['受邀者主动确认高风险']; state.aiStatus = 'idle'; saveState();
