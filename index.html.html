@@ -628,9 +628,9 @@
       { id: 'communication_priority', label: '冲突时的沟通偏好', text: '闹别扭的时候，你更希望对方先怎么做？', choices: ['先听懂我的心情', '更想先被理解', '都需要，看当时的情况', '更想先聊聊办法', '先一起想想办法'] }
     ];
     const quizQuestions = [
-      { id: 'late_reply', type: '当前问题', text: '对方没有及时回应时，我通常会怎么反应？', help: '想想最近的自己，选最贴近的那个就好，没有标准答案。', choices: ['反复确认关系是否安全', '先等一等，但心里会紧张', '能说明我需要一个回复时间', '会退开，不太想再表达'] },
-      { id: 'space', type: '当前问题', text: '当我需要空间时，我通常会怎么说？', help: '需要一点自己的空间，也很正常。看看你通常怎么开口。', choices: ['直接消失或冷处理', '说不清，只希望对方懂', '说明我需要空间和回来时间', '担心对方误会，所以不敢说'] },
-      { id: 'conflict_heat', type: '当前问题', text: '争执变激烈时，我比较容易做什么？', help: '不用挑“最好”的答案，选你真的会做的就好。', choices: ['继续追问直到有答案', '沉默或结束对话', '先暂停，再约时间回来谈', '开始证明自己没有错'] },
+      { id: 'late_reply', type: '当前问题', text: '对方没有及时回应时，我通常会怎么反应？', help: '依恋理论关心的是：不安时，我们怎样寻找回应和安心。想想最近的自己就好，一次回答不会决定你是哪种人。', choices: ['反复确认关系是否安全', '先等一等，但心里会紧张', '能说明我需要一个回复时间', '会退开，不太想再表达'] },
+      { id: 'space', type: '当前问题', text: '当我需要空间时，我通常会怎么说？', help: '想靠近，也想有自己的空间，这两种需要可以一起存在。需要空间本身不等于回避依恋哦。', choices: ['直接消失或冷处理', '说不清，只希望对方懂', '说明我需要空间和回来时间', '担心对方误会，所以不敢说'] },
+      { id: 'conflict_heat', type: '当前问题', text: '争执变激烈时，我比较容易做什么？', help: '不安时，有人想赶快靠近，有人想先退开。先看看自己怎么保护自己，不急着给谁贴标签。', choices: ['继续追问直到有答案', '沉默或结束对话', '先暂停，再约时间回来谈', '开始证明自己没有错'] },
       { id: 'fact_interpretation', type: '当前问题', text: '复盘一件事时，我能否区分事实和解释？', help: '例如“对方 2 小时没回”是事实，“对方不在乎我”是解释。', choices: ['经常混在一起', '事后能分开一点', '多数时候能分开说', '需要提示才做得到'] },
       { id: 'repair_request', type: '当前问题', text: '冲突后，我能否提出一个具体下一步？', help: '例如“明晚 20 分钟只讨论回复期待”。', choices: ['很难，只想对方先改变', '能提出大方向', '能提出时间和行动', '能提出也能听对方版本'] },
       { id: 'needs', type: '关系需要', text: '当前最想被看见的关系需要是什么？', help: '先挑最在意的三项以内吧。心情变了，也可以回来改。', choices: ['被回应', '被尊重', '安全感', '空间', '稳定承诺', '被理解', '公平分担'] }
@@ -851,7 +851,7 @@
       const needs = state.needs.length ? state.needs.join('、') : '暂未选择';
       const sourceCount = Object.keys(answers).length + state.needs.length;
       document.getElementById('selfResultContent').innerHTML = `
-        <article class="card soft-card"><h2>现在，你更在意这些</h2><p>${needs}</p></article>
+        <article class="card" data-od-id="attachment-reflection"><h2>不安的时候，你想怎样被接住？</h2><p>依恋理论提供了一个理解亲密关系的角度：我们会留意对方是否回应，也会对靠近和依靠有不同感受。这不是感性与理性的区别，更不是谁比较好。</p><p>看看刚才的你：等待回复时，你选了「${escapeHtml(answers.late_reply || '还没回答')}」；需要空间时，你选了「${escapeHtml(answers.space || '还没回答')}」。这只是你对当下的描述，不会据此判定依恋类型。</p><p class="mini-copy">这里的亲近、空间、再沟通和沟通偏好是自编自评，不是依恋量表，也不能换算成依恋焦虑或回避分数。新的复盘线索仍由你确认后再更新。</p><details><summary>想了解一点理论依据</summary><p class="mini-copy">参考：R. Chris Fraley《成人依恋理论与研究概览》。本页借用理论帮助自我观察，未使用标准化依恋测验。</p></details></article><article class="card soft-card"><h2>现在，你更在意这些</h2><p>${needs}</p></article>
         <article class="card"><h2>哪些时刻，心里会一紧</h2><p>等待回复、计划有变、想独处却不好开口……这些时刻，哪些让你有共鸣？先留意就好，不代表你一定会这样。</p></article>
         <article class="card"><h2>争执时，你说自己会这样</h2><p>${answers.conflict_heat || '尚未回答冲突升温相关问题'}。下次可以留意：这样做以后，你们更靠近了，还是更难说下去了？</p></article>
         <article class="card"><h2>可以先试试这一小步</h2><p>试着说：“刚才发生了……我有点……因为我在意……我们能不能……”不用一次就说得很顺。</p></article>
@@ -906,7 +906,7 @@
       const views = [
         `<h2>慢慢说，发生什么了？</h2><p class="mini-copy">先说最想说的那一点，不用按顺序，也不用回答一串问题。</p><div class="field"><label for="reviewFact">你的话</label><textarea class="textarea" id="reviewFact" rows="6" maxlength="12000" placeholder="比如：刚才我们又因为回复消息吵起来了，我有点委屈……">${escapeHtml(r.fact)}</textarea></div><div class="btn-row single"><button class="secondary" type="button" id="voiceReview">用语音说说</button></div><p id="voiceStatus" class="mini-copy" role="status">也可以用键盘上的语音输入，说完记得看看文字对不对。</p><details class="partner-details"><summary>有些细节想补充（全部选填）</summary><div class="section-stack">${[['title','给这段话起个名字'],['date','大概什么时候'],['interpretation','我当时怎么理解'],['feeling','我的感受'],['need','我在意什么'],['understand','希望对方理解什么'],['adjust','我愿意调整什么'],['next','想试试的下一步']].map(([key,label]) => `<div class="field"><label for="detail-${key}">${label}（选填）</label><input class="input" id="detail-${key}" value="${escapeHtml(r[key])}" maxlength="2000"></div>`).join('')}</div></details><p class="mini-copy">AI 对话是后续接入方向；当前先保留你的原话，用模板预览复盘，不会自动提取或猜测你的感受。</p>`,
         `<h2>安全确认</h2><p class="mini-copy">继续前，请确认是否有这些情况。这里不会自动识别危险，请按实际情况选择。</p><div class="risk-grid">${['伤害或威胁','强迫或严重控制','跟踪或恐吓','自伤风险','以上都没有'].map(item => `<label><input type="checkbox" value="${item}" ${r.risks.includes(item) ? 'checked' : ''}>${item}</label>`).join('')}</div>`,
-        `<h2>写好了，我们一起理一理</h2><p class="mini-copy">先从你的感受出发，就足够开始了。对方有话想说，也可以补充在下面。两种说法会分开放，不急着合成一个答案。</p><details class="partner-details" ${hasPartnerInput() ? 'open' : ''}><summary>补充对方的视角（选填）</summary><p class="mini-copy">如果对方愿意，可以用这台设备写下自己的话。这里不会发送邀请。由你转述也可以，记得把猜测和对方说过的话分开哦。</p><div class="field"><label for="partner-source">这段补充来自谁</label><select class="input" id="partner-source"><option value="retold" ${state.partner.source === 'retold' ? 'selected' : ''}>由我转述，尚需对方确认</option><option value="partner" ${state.partner.source === 'partner' ? 'selected' : ''}>由对方本人在本机填写</option></select></div><div class="field"><label for="partner-fact">对方眼中发生了什么</label><textarea class="textarea" id="partner-fact">${escapeHtml(state.partner.fact)}</textarea></div><div class="field"><label for="partner-feeling">对方表达的感受</label><textarea class="textarea" id="partner-feeling">${escapeHtml(state.partner.feeling)}</textarea></div><div class="field"><label for="partner-need">对方在意什么，希望我理解什么</label><textarea class="textarea" id="partner-need">${escapeHtml(state.partner.need)}</textarea></div><label class="notice checkline"><input id="partner-risk" type="checkbox"><span>补充中涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险</span></label></details><p class="mini-copy">小提醒：这版复盘先用本地模板演示，还没接入真实 AI。写下的话只保存在当前浏览器里，共用设备时也请留意隐私。</p><div class="btn-row single"><button class="primary" id="submitSingle" type="button">生成 AI 复盘</button></div><div class="btn-row"><button class="ghost" id="simulateFail" type="button">模拟生成失败</button><button class="ghost" id="simulateInvalid" type="button">模拟结构校验失败</button></div>`
+        `<h2>写好了，我们一起理一理</h2><p class="mini-copy">先从你的感受出发，就足够开始了。对方有话想说，也可以补充在下面。两种说法会分开放，不急着合成一个答案。</p><div class="btn-row" data-od-id="review-perspective-actions"><button class="secondary" id="sharePerspective" type="button">分享给对方补充</button><button class="secondary" id="retellPerspective" type="button" aria-controls="partnerSupplement" aria-expanded="${hasPartnerInput()}">我先代为补充</button></div><p class="mini-copy">分享前会请你确认内容。这一版只演示对方收到后的填写流程，不会真的发送；代为补充会标为你的转述。</p><details id="partnerSupplement" class="partner-details" ${hasPartnerInput() ? 'open' : ''}><summary>补充对方的视角（选填）</summary><p class="mini-copy">如果对方愿意，可以用这台设备写下自己的话。这里不会发送邀请。由你转述也可以，记得把猜测和对方说过的话分开哦。</p><div class="field"><label for="partner-source">这段补充来自谁</label><select class="input" id="partner-source"><option value="retold" ${state.partner.source === 'retold' ? 'selected' : ''}>由我转述，尚需对方确认</option><option value="partner" ${state.partner.source === 'partner' ? 'selected' : ''}>由对方本人在本机填写</option></select></div><div class="field"><label for="partner-fact">对方眼中发生了什么</label><textarea class="textarea" id="partner-fact">${escapeHtml(state.partner.fact)}</textarea></div><div class="field"><label for="partner-feeling">对方表达的感受</label><textarea class="textarea" id="partner-feeling">${escapeHtml(state.partner.feeling)}</textarea></div><div class="field"><label for="partner-need">对方在意什么，希望我理解什么</label><textarea class="textarea" id="partner-need">${escapeHtml(state.partner.need)}</textarea></div><label class="notice checkline"><input id="partner-risk" type="checkbox"><span>补充中涉及伤害、威胁、强迫、跟踪、严重控制或自伤风险</span></label></details><p class="mini-copy">小提醒：这版复盘先用本地模板演示，还没接入真实 AI。写下的话只保存在当前浏览器里，共用设备时也请留意隐私。</p><div class="btn-row single"><button class="primary" id="submitSingle" type="button">生成 AI 复盘</button></div><div class="btn-row"><button class="ghost" id="simulateFail" type="button">模拟生成失败</button><button class="ghost" id="simulateInvalid" type="button">模拟结构校验失败</button></div>`
       ];
       document.getElementById('reviewStepCard').innerHTML = views[state.reviewStep];
       if (state.reviewStep === 0) wireReviewVoice();
@@ -931,6 +931,22 @@
       if (state.reviewStep === 2) {
         document.getElementById('reviewNext').style.display = 'none';
         document.getElementById('submitSingle').addEventListener('click', () => beginReport('single'));
+        document.getElementById('sharePerspective').addEventListener('click', () => {
+          savePartnerFields();
+          state.draftSaved = true;
+          saveState();
+          openInvitation();
+        });
+        const supplement = document.getElementById('partnerSupplement');
+        const retell = document.getElementById('retellPerspective');
+        retell.addEventListener('click', () => {
+          supplement.open = true;
+          retell.setAttribute('aria-expanded', 'true');
+          document.getElementById('partner-source').value = 'retold';
+          savePartnerFields();
+          document.getElementById('partner-fact').focus();
+        });
+        supplement.addEventListener('toggle', () => retell.setAttribute('aria-expanded', String(supplement.open)));
         document.querySelectorAll('#reviewStepCard textarea, #reviewStepCard select').forEach(input => input.addEventListener('input', savePartnerFields));
         document.getElementById('partner-risk').addEventListener('change', event => {
           if (!event.target.checked) return;
